@@ -24,36 +24,42 @@ public class GameScreenController {
         double startingY = (double) view.getSceneY()/2 - (double) (boardSize *50)/2;
 
         model.buildBoard(startingX,startingY);
-        setMouseSettings(model.getGameBoard().getHorizontalLines());
-        setMouseSettings(model.getGameBoard().getVerticalLines());
+        setLineButtons(model.getGameBoard().getHorizontalLines());
+        setLineButtons(model.getGameBoard().getVerticalLines());
+
+        // todo , if first player is an ai , do the first move Onced
         setLabels(view.getLabels(),startingX,startingY);
         view.start(stage);
     }
 
-    public void setMouseSettings(Line[][] lines) {
+
+
+    public void setLineButtons(Line[][] lines) {
         for (int i = 0; i< boardSize; i++) {
             for (int j = 0; j < boardSize - 1; j++) {
                 lines[i][j].setStroke(Color.TRANSPARENT);
                 lines[i][j].setStrokeWidth(5);
+
                 lines[i][j].setOnMouseClicked((mouseEvent -> {
-                    Line clickedLine = (Line) mouseEvent.getSource();
-                    model.checkValidMove(clickedLine);
-                    updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore());
-                }));
-                lines[i][j].setOnMouseEntered((mouseEvent -> {
-                    Line hoveredLine = (Line) mouseEvent.getSource();
-                    if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
-                        hoveredLine.setStroke(Color.YELLOW);
-                    }
-                }));
-                lines[i][j].setOnMouseExited((mouseEvent -> {
-                    Line hoveredLine = (Line) mouseEvent.getSource();
-                    if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
-                        hoveredLine.setStroke(Color.TRANSPARENT);
-                    }
-                }));
+                        Line clickedLine = (Line) mouseEvent.getSource();
+                        model.checkAndExecuteMove(clickedLine);
+                        updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore());
+                    }));
+                    lines[i][j].setOnMouseEntered((mouseEvent -> {
+                        Line hoveredLine = (Line) mouseEvent.getSource();
+                        if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
+                            hoveredLine.setStroke(Color.YELLOW);
+                        }
+                    }));
+                    lines[i][j].setOnMouseExited((mouseEvent -> {
+                        Line hoveredLine = (Line) mouseEvent.getSource();
+                        if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
+                            hoveredLine.setStroke(Color.TRANSPARENT);
+                        }
+                    }));
+                }
             }
-        }
+
     }
     public void setLabels(Label[] labels,double startingX,double startingY) {
         labels[0] = new Label();
@@ -93,6 +99,14 @@ public class GameScreenController {
         }
         else {
             labels[0].setText(model.getCurrent().getName() + view.getStringCurrentTurn());
+
+            if (model.getCurrent().isAi()){
+
+                //get Line to turn will be using eval
+                Line l = model.getLineToTurn();
+                model.checkAndExecuteMove(l);
+                updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore());
+            }
         }
     }
 }

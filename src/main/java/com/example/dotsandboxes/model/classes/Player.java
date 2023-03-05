@@ -17,5 +17,7 @@ public class Player {
     public Board play(Board gameBoard){
         return gameBoard;
     }
-
+    public boolean isAi() {
+        return isAi;
+    }
 }

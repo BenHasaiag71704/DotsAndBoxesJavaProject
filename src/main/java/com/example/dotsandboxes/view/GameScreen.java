@@ -20,6 +20,7 @@ public class GameScreen extends Application {
     private int sceneY;
     private StringProperty player1;
     private StringProperty player2;
+
     private IntegerProperty player1Score;
     private IntegerProperty player2Score;
     private StringProperty stringCurrentTurn;
@@ -65,4 +66,6 @@ public class GameScreen extends Application {
     public String getStringScorePlayer1() {return stringScorePlayer1.get();}
     public String getStringCurrentTurn() {return stringCurrentTurn.get();}
     public String getStringScorePlayer2() {return stringScorePlayer2.get();}
+
+
 }

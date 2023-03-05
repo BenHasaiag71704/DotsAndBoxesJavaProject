@@ -57,7 +57,7 @@ public class Game {
     }
 
     // check if a move is valid or not
-    public boolean checkValidMove(Line line) {
+    public boolean checkAndExecuteMove(Line line) {
         if (line.getStroke() == Color.YELLOW || line.getStroke() == Color.TRANSPARENT) {
             int scoreObtained = gameBoard.checkBoxFormed(line);
             if (turn == FIRST_PLAYER){
@@ -102,6 +102,29 @@ public class Game {
         gameBoard.initializeLines(sceneX,sceneY,40);
         gameBoard.initializeDots(sceneX,sceneY,40);
         gameBoard.initializeBoxes();
+    }
+
+
+    public Line getLineToTurn() {
+        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
+            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
+                if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
+                    return this.gameBoard.getHorizontalLines()[i][j];
+                }
+            }
+        }
+        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
+            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
+                if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
+                    return this.gameBoard.getVerticalLines()[i][j];
+                }
+            }
+        }
+        return null;
+    }
+
+    public int eval(){
+        return 1;
     }
 
 }
