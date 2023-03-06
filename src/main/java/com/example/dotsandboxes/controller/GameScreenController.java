@@ -101,7 +101,6 @@ public class GameScreenController {
             labels[0].setText(model.getCurrent().getName() + view.getStringCurrentTurn());
 
             if (model.getCurrent().isAi()){
-
                 //get Line to turn will be using eval
                 Line l = model.getLineToTurn();
                 model.checkAndExecuteMove(l);
