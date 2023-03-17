@@ -22,6 +22,10 @@ public class Game {
     // the game board itself
     private Board gameBoard;
 
+
+    //testing adding a bitboard
+    private BitBoard bitBoard;
+
     public Game() {
         this.turn = FIRST_PLAYER;
     }
@@ -32,6 +36,7 @@ public class Game {
         this.second = second;
         this.gameBoard = gameBoard;
         this.turn = FIRST_PLAYER;
+        this.bitBoard = new BitBoard(gameBoard.getBoardSize());
     }
 
     public PlayerIndex getTurn() {

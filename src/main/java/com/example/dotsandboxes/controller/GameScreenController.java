@@ -98,6 +98,7 @@ public class GameScreenController {
             }
         }
         else {
+            System.out.println();
             labels[0].setText(model.getCurrent().getName() + view.getStringCurrentTurn());
 
             if (model.getCurrent().isAi()){
