@@ -132,7 +132,6 @@ public class GameScreenController {
                 int pos1 = myCustomLine.getPos1();
                 int pos2 = myCustomLine.getPos2();
 
-
                 model.checkAndExecuteMove(l);
                 updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore() , pos1 ,pos2);
             }

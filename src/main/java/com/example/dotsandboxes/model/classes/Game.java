@@ -121,19 +121,24 @@ public class Game {
 
         for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
             for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
-                if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
-                    pos1 = i;
-                    pos2 = j;
-                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
+                if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
+                    pos1 = j;
+                    pos2 = i;
+                    pos1 = pos1*2+1;
+                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getVerticalLines()[i][j]);
+                    return line;
                 }
             }
         }
+
+
         for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
             for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
-                if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
-                    pos1 = i;
+                if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
+                    pos1 = i*2;
                     pos2 = j;
                     CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
+                    return line;
                 }
             }
         }

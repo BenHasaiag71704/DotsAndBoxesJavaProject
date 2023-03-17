@@ -24,4 +24,6 @@ public class CustomLine{
     public Line getCustomLine() {
         return costumLine;
     }
+
+
 }
