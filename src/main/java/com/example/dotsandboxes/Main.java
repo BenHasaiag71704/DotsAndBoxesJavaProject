@@ -18,10 +18,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        BitBoard b = new BitBoard(5);
+//        BitBoard b = new BitBoard(4);
 //        b.set(0);
-//        b.set(5);
-//        b.set(6);
+//        b.set(4);
+//        b.set(8);
 //        b.printLongAsBitMatrix();
 //        boolean res = b.checkSetBitInRow(2);
 
@@ -34,6 +34,9 @@ public class Main extends Application {
         MainMenuScreenController titleController = new MainMenuScreenController(title,model,primaryStage);
 
     }
+
+
+
 
 
 

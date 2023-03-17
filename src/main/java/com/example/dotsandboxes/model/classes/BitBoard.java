@@ -38,4 +38,8 @@ public class BitBoard {
         }
         System.out.println("------------------------------------");
     }
+
+    public BigInteger getBitBoard() {
+        return bitBoard;
+    }
 }

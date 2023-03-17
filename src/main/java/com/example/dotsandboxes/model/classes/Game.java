@@ -24,7 +24,7 @@ public class Game {
 
 
     //testing adding a bitboard
-    private BitBoard bitBoard;
+    public BitBoard bitBoard;
 
     public Game() {
         this.turn = FIRST_PLAYER;
@@ -38,6 +38,11 @@ public class Game {
         this.turn = FIRST_PLAYER;
         this.bitBoard = new BitBoard(gameBoard.getBoardSize());
     }
+
+    public void initBitBoard(){
+        this.bitBoard = new BitBoard(gameBoard.getBoardSize());
+    }
+
 
     public PlayerIndex getTurn() {
         return turn;
@@ -110,18 +115,25 @@ public class Game {
     }
 
 
-    public Line getLineToTurn() {
+    public CustomLine getLineToTurn() {
+        int pos1;
+        int pos2;
+
         for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
             for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
                 if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
-                    return this.gameBoard.getHorizontalLines()[i][j];
+                    pos1 = i;
+                    pos2 = j;
+                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
                 }
             }
         }
         for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
             for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
                 if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
-                    return this.gameBoard.getVerticalLines()[i][j];
+                    pos1 = i;
+                    pos2 = j;
+                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.example.dotsandboxes.controller;
 
+import com.example.dotsandboxes.model.classes.CustomLine;
 import com.example.dotsandboxes.model.classes.Game;
 import com.example.dotsandboxes.view.GameScreen;
 import javafx.geometry.Pos;
@@ -20,12 +21,15 @@ public class GameScreenController {
         this.view = view;
         this.boardSize = model.getGameBoard().getBoardSize();
 
+        this.model.initBitBoard();
+
+
         double startingX =  (double) view.getSceneX()/2 - (double) (boardSize *50)/2;
         double startingY = (double) view.getSceneY()/2 - (double) (boardSize *50)/2;
 
         model.buildBoard(startingX,startingY);
-        setLineButtons(model.getGameBoard().getHorizontalLines());
-        setLineButtons(model.getGameBoard().getVerticalLines());
+        setLineButtons(model.getGameBoard().getHorizontalLines() , true);
+        setLineButtons(model.getGameBoard().getVerticalLines() , false);
 
         // todo , if first player is an ai , do the first move Onced
         setLabels(view.getLabels(),startingX,startingY);
@@ -34,16 +38,29 @@ public class GameScreenController {
 
 
 
-    public void setLineButtons(Line[][] lines) {
+    public void setLineButtons(Line[][] lines , Boolean isHorizontal) {
         for (int i = 0; i< boardSize; i++) {
             for (int j = 0; j < boardSize - 1; j++) {
                 lines[i][j].setStroke(Color.TRANSPARENT);
                 lines[i][j].setStrokeWidth(5);
 
+                int finalI = i;
+                int finalJ = j;
+                if (isHorizontal){
+                    finalI = finalI *2;
+                }
+                else{
+                    finalI = j;
+                    finalJ = i;
+                    finalI = finalI *2 + 1;
+                }
+                int finalJ1 = finalJ;
+                int finalI1 = finalI;
+
                 lines[i][j].setOnMouseClicked((mouseEvent -> {
                         Line clickedLine = (Line) mouseEvent.getSource();
                         model.checkAndExecuteMove(clickedLine);
-                        updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore());
+                        updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore() , finalI1, finalJ1);
                     }));
                     lines[i][j].setOnMouseEntered((mouseEvent -> {
                         Line hoveredLine = (Line) mouseEvent.getSource();
@@ -85,7 +102,13 @@ public class GameScreenController {
         labels[2].setTextFill(Color.RED);
     }
 
-    public void updateScores(Label[] labels, int player1Score, int player2Score) {
+    public void updateScores(Label[] labels, int player1Score, int player2Score , int i , int j) {
+
+        this.model.bitBoard.set(i*boardSize + j);
+
+        this.model.bitBoard.printLongAsBitMatrix();
+
+
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
         if (!model.gameStatus()) {
@@ -98,14 +121,20 @@ public class GameScreenController {
             }
         }
         else {
-            System.out.println();
+            System.out.println("was clicked in line and row :"  + i + "" + j);
             labels[0].setText(model.getCurrent().getName() + view.getStringCurrentTurn());
 
             if (model.getCurrent().isAi()){
                 //get Line to turn will be using eval
-                Line l = model.getLineToTurn();
+                CustomLine myCustomLine = model.getLineToTurn();
+                Line l = myCustomLine.getCustomLine();
+
+                int pos1 = myCustomLine.getPos1();
+                int pos2 = myCustomLine.getPos2();
+
+
                 model.checkAndExecuteMove(l);
-                updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore());
+                updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore() , pos1 ,pos2);
             }
         }
     }
