@@ -189,14 +189,14 @@ public class Game {
         }
         if (b.getLeft() == 0){
             int row1 = (row*2)+1;
-            int col1 = col+1;
+            int col1 = col;
             CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col][row]);
             return line;
 
         }
         if (b.getRight() == 0){
             int row1 = (row*2)+1;
-            int col1 = col;
+            int col1 = col+1;
             CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col+1][row]);
             return line;
 
