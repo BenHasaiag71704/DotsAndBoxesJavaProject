@@ -1,13 +1,10 @@
 package com.example.dotsandboxes;
 
 import com.example.dotsandboxes.controller.MainMenuScreenController;
-import com.example.dotsandboxes.model.classes.BitBoard;
 import com.example.dotsandboxes.model.classes.Game;
 import com.example.dotsandboxes.view.MainMenuScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.math.BigInteger;
 
 public class Main extends Application {
 
@@ -18,12 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        BitBoard b = new BitBoard(4);
-//        b.set(0);
-//        b.set(4);
-//        b.set(8);
-//        b.printLongAsBitMatrix();
-//        boolean res = b.checkSetBitInRow(2);
+
 
 
 

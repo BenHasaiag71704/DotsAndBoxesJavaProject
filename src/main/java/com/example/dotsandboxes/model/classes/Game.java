@@ -22,9 +22,8 @@ public class Game {
     // the game board itself
     private Board gameBoard;
 
+    public NodeBoard nodeBoard;
 
-    //testing adding a bitboard
-    public BitBoard bitBoard;
 
     public Game() {
         this.turn = FIRST_PLAYER;
@@ -36,12 +35,8 @@ public class Game {
         this.second = second;
         this.gameBoard = gameBoard;
         this.turn = FIRST_PLAYER;
-        this.bitBoard = new BitBoard(gameBoard.getBoardSize());
     }
 
-    public void initBitBoard(){
-        this.bitBoard = new BitBoard(gameBoard.getBoardSize());
-    }
 
 
     public PlayerIndex getTurn() {
@@ -115,38 +110,120 @@ public class Game {
     }
 
 
-    public CustomLine getLineToTurn() {
-        int pos1;
-        int pos2;
+//    public CustomLine getLineToTurn() {
+//        int pos1;
+//        int pos2;
+//
+//        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
+//            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
+//                if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
+//                    pos1 = j;
+//                    pos2 = i;
+//                    pos1 = pos1*2+1;
+//                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getVerticalLines()[i][j]);
+//                    return line;
+//                }
+//            }
+//        }
+//        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
+//            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
+//                if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
+//                    pos1 = i*2;
+//                    pos2 = j;
+//                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
+//                    return line;
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
-        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
-            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
-                if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
-                    pos1 = j;
-                    pos2 = i;
-                    pos1 = pos1*2+1;
-                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getVerticalLines()[i][j]);
-                    return line;
-                }
-            }
+
+
+
+
+    public CustomLine getLineToTurn() {
+
+        //check if any 3 line boxes to close
+        if (!this.nodeBoard.NodeCountArrays[3].isEmpty()){
+            CustomLine l = getLineFromBoxInArrayCountN(3);
+            return l;
+        }
+        if (!this.nodeBoard.NodeCountArrays[0].isEmpty()) {
+            CustomLine myL = getLineFromBoxInArrayCountN(0);
+            return myL;
+        }
+        if (!this.nodeBoard.NodeCountArrays[1].isEmpty()) {
+            CustomLine myL = getLineFromBoxInArrayCountN(1);
+            return myL;
+        }
+        if (!this.nodeBoard.NodeCountArrays[2].isEmpty()) {
+            CustomLine myL = getLineFromBoxInArrayCountN(2);
+            return myL;
         }
 
 
-        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
-            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
-                if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
-                    pos1 = i*2;
-                    pos2 = j;
-                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
-                    return line;
-                }
-            }
+        return null;
+    }
+
+
+
+
+    public CustomLine getLineFromBoxInArrayCountN(int n){
+        NodeBox b = this.nodeBoard.NodeCountArrays[n].get(0);
+        int row = b.getBoxRow();
+        int col = b.getBoxCol();
+
+        if (b.getUp() == 0){
+            int row1 = row*2;
+            int col1 = col;
+            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row][col]);
+            return line;
+        }
+        if (b.getDown() == 0){
+            int row1 = row*2+2;
+            int col1 = col;
+            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row+1][col]);
+            return line;
+
+        }
+        if (b.getLeft() == 0){
+            int row1 = (row*2)+1;
+            int col1 = col+1;
+            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col][row]);
+            return line;
+
+        }
+        if (b.getRight() == 0){
+            int row1 = (row*2)+1;
+            int col1 = col;
+            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col+1][row]);
+            return line;
+
         }
         return null;
     }
+
+
+
+
+
+
+
+
+
+
 
     public int eval(){
         return 1;
     }
 
+
+    public NodeBoard getNodeBoard() {
+        return nodeBoard;
+    }
+
+    public void setNodeBoard(NodeBoard nodeBoard) {
+        this.nodeBoard = nodeBoard;
+    }
 }

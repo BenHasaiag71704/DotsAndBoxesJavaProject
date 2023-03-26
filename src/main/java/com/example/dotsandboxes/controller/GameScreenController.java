@@ -2,6 +2,7 @@ package com.example.dotsandboxes.controller;
 
 import com.example.dotsandboxes.model.classes.CustomLine;
 import com.example.dotsandboxes.model.classes.Game;
+import com.example.dotsandboxes.model.classes.NodeBoard;
 import com.example.dotsandboxes.view.GameScreen;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -21,7 +22,10 @@ public class GameScreenController {
         this.view = view;
         this.boardSize = model.getGameBoard().getBoardSize();
 
-        this.model.initBitBoard();
+
+        this.model.nodeBoard = new NodeBoard(boardSize);
+
+        //System.out.println(this.model.nodeBoard.NodesAll.size());
 
 
         double startingX =  (double) view.getSceneX()/2 - (double) (boardSize *50)/2;
@@ -104,10 +108,8 @@ public class GameScreenController {
 
     public void updateScores(Label[] labels, int player1Score, int player2Score , int i , int j) {
 
-        this.model.bitBoard.set(i*boardSize + j);
-
-        this.model.bitBoard.printLongAsBitMatrix();
-
+        this.model.nodeBoard.SetNewLine(i,j);
+        this.model.nodeBoard.printer();
 
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
@@ -128,6 +130,8 @@ public class GameScreenController {
                 //get Line to turn will be using eval
                 CustomLine myCustomLine = model.getLineToTurn();
                 Line l = myCustomLine.getCustomLine();
+
+
 
                 int pos1 = myCustomLine.getPos1();
                 int pos2 = myCustomLine.getPos2();
