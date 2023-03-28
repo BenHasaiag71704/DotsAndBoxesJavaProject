@@ -225,6 +225,7 @@ public class NodeBoard {
                 newBoard.NodeCountArrays[4].add(this.AllNodes[i][j]);
             }
         }
+
         return newBoard;
     }
 

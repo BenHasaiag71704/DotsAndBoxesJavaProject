@@ -136,10 +136,14 @@ public class GameScreenController {
                 CustomLine myCustomLine;
                 if (model.nodeBoard.NodeCountArrays[0].size() > 0 || model.nodeBoard.NodeCountArrays[3].size() != 0) {
                     myCustomLine = model.getLineToTurn();
+                    System.out.println("brain");
                 }
                 else{
                     myCustomLine = model.getTurnFromMiniMax(model);
+                    System.out.println("power");
                 }
+
+
 
 
                 Line l = myCustomLine.getCustomLine();
