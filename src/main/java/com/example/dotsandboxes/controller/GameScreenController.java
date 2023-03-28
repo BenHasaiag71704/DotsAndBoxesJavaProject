@@ -152,6 +152,8 @@ public class GameScreenController {
 
                 Line l = myCustomLine.getCustomLine();
 
+                // bla
+
 
                 int pos1 = myCustomLine.getPos1();
                 int pos2 = myCustomLine.getPos2();
