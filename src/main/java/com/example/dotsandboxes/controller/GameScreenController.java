@@ -126,6 +126,8 @@ public class GameScreenController {
             System.out.println("was clicked in line and row :"  + i + "" + j);
             labels[0].setText(model.getCurrent().getName() + view.getStringCurrentTurn());
 
+
+            System.out.print("bla");
             if (model.getCurrent().isAi()){
                 //get Line to turn will be using eval
                 CustomLine myCustomLine = model.getLineToTurn();
