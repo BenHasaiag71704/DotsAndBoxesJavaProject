@@ -11,8 +11,6 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import static com.example.dotsandboxes.model.enums.PlayerIndex.FIRST_PLAYER;
-
 
 public class GameScreenController {
     private Game model;
@@ -64,24 +62,24 @@ public class GameScreenController {
                 int finalI1 = finalI;
 
                 lines[i][j].setOnMouseClicked((mouseEvent -> {
-                        Line clickedLine = (Line) mouseEvent.getSource();
-                        model.checkAndExecuteMove(clickedLine);
-                        updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore() , finalI1, finalJ1);
-                    }));
-                    lines[i][j].setOnMouseEntered((mouseEvent -> {
-                        Line hoveredLine = (Line) mouseEvent.getSource();
-                        if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
-                            hoveredLine.setStroke(Color.YELLOW);
-                        }
-                    }));
-                    lines[i][j].setOnMouseExited((mouseEvent -> {
-                        Line hoveredLine = (Line) mouseEvent.getSource();
-                        if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
-                            hoveredLine.setStroke(Color.TRANSPARENT);
-                        }
-                    }));
-                }
+                    Line clickedLine = (Line) mouseEvent.getSource();
+                    model.checkAndExecuteMove(clickedLine);
+                    updateScores(view.getLabels(),model.getFirst().getScore(),model.getSecond().getScore() , finalI1, finalJ1);
+                }));
+                lines[i][j].setOnMouseEntered((mouseEvent -> {
+                    Line hoveredLine = (Line) mouseEvent.getSource();
+                    if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
+                        hoveredLine.setStroke(Color.YELLOW);
+                    }
+                }));
+                lines[i][j].setOnMouseExited((mouseEvent -> {
+                    Line hoveredLine = (Line) mouseEvent.getSource();
+                    if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
+                        hoveredLine.setStroke(Color.TRANSPARENT);
+                    }
+                }));
             }
+        }
 
     }
     public void setLabels(Label[] labels,double startingX,double startingY) {
@@ -113,8 +111,6 @@ public class GameScreenController {
         this.model.nodeBoard.SetNewLine(i,j);
         this.model.nodeBoard.printer();
 
-
-
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
         if (!model.gameStatus()) {
@@ -130,29 +126,11 @@ public class GameScreenController {
             System.out.println("was clicked in line and row :"  + i + "" + j);
             labels[0].setText(model.getCurrent().getName() + view.getStringCurrentTurn());
 
-
-            System.out.print("bla");
             if (model.getCurrent().isAi()){
                 //get Line to turn will be using eval
-
-                System.out.print("bla");
-
-                CustomLine myCustomLine;
-                if (model.nodeBoard.NodeCountArrays[0].size() > 0 || model.nodeBoard.NodeCountArrays[3].size() != 0) {
-                    myCustomLine = model.getLineToTurn();
-                    System.out.println("brain");
-                }
-                else{
-                    myCustomLine = model.getTurnFromMiniMax(model);
-                    System.out.println("power");
-                }
-
-
-
-
+                CustomLine myCustomLine = model.getLineToTurn();
                 Line l = myCustomLine.getCustomLine();
 
-                // bla
 
 
                 int pos1 = myCustomLine.getPos1();

@@ -88,31 +88,6 @@ public class NodeBox {
     public int lineCount(){
         return up + down + left + right;
     }
-    //////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public NodeBox DeepCopyNodeBox() {
-        NodeBox newNode = new NodeBox();
-        newNode.setUp(this.up);
-        newNode.setDown(this.down);
-        newNode.setLeft(this.left);
-        newNode.setRight(this.right);
-        newNode.setBoxRow(this.boxRow);
-        newNode.setBoxCol(this.boxCol);
-        return newNode;
-    }
-
+//////////////////////////////////////////////
 }

@@ -6,7 +6,6 @@ import javafx.scene.shape.Line;
 import javafx.util.Pair;
 
 import static com.example.dotsandboxes.model.enums.PlayerIndex.FIRST_PLAYER;
-import static com.example.dotsandboxes.model.enums.PlayerIndex.SECOND_PLAYER;
 
 public class Game {
     // first and second player
@@ -15,7 +14,7 @@ public class Game {
 
     // the index for the player turn
     //FIRST_PLAYER for the player who started and SECOND_PLAYER
-    public PlayerIndex turn;
+    private PlayerIndex turn;
 
     // the type of the game , 0 for human vs human and 1 for human vs ai
     private int gameType;
@@ -30,15 +29,13 @@ public class Game {
         this.turn = FIRST_PLAYER;
     }
 
-    public Game(Player first, Player second, int gameType, Board gameBoard ,NodeBoard nodeBoard , PlayerIndex turn) {
+    public Game(Player first, Player second, int gameType, Board gameBoard) {
         this.gameType = gameType;
         this.first = first;
         this.second = second;
         this.gameBoard = gameBoard;
-        this.nodeBoard = nodeBoard;
-        this.turn = turn;
+        this.turn = FIRST_PLAYER;
     }
-
 
 
 
@@ -113,6 +110,36 @@ public class Game {
     }
 
 
+//    public CustomLine getLineToTurn() {
+//        int pos1;
+//        int pos2;
+//
+//        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
+//            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
+//                if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
+//                    pos1 = j;
+//                    pos2 = i;
+//                    pos1 = pos1*2+1;
+//                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getVerticalLines()[i][j]);
+//                    return line;
+//                }
+//            }
+//        }
+//        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
+//            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
+//                if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
+//                    pos1 = i*2;
+//                    pos2 = j;
+//                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
+//                    return line;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
+
+
 
 
     public CustomLine getLineToTurn() {
@@ -134,8 +161,12 @@ public class Game {
             CustomLine myL = getLineFromBoxInArrayCountN(2);
             return myL;
         }
+
+
         return null;
     }
+
+
 
 
     public CustomLine getLineFromBoxInArrayCountN(int n){
@@ -168,6 +199,7 @@ public class Game {
             int col1 = col+1;
             CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col+1][row]);
             return line;
+
         }
         return null;
     }
@@ -176,405 +208,22 @@ public class Game {
 
 
 
+
+
+
+
+
+
+    public int eval(){
+        return 1;
+    }
+
+
     public NodeBoard getNodeBoard() {
         return nodeBoard;
     }
 
     public void setNodeBoard(NodeBoard nodeBoard) {
         this.nodeBoard = nodeBoard;
-    }
-
-
-
-
-
-
-
-
-    public int Max(int depth , Game copyGame){
-        //System.out.println("current depth is" + depth);
-        if (depth == 0 || endGame(copyGame)){
-            return eval(copyGame);
-        }
-        int maxScore = Integer.MIN_VALUE;
-        int currentScore;
-
-        for (NodeBox minimaxBox : copyGame.nodeBoard.NodeCountArrays[4]){
-            if (minimaxBox.lineCount() < 4){
-
-                int row = minimaxBox.getBoxRow();
-                int col = minimaxBox.getBoxCol();
-
-                int row1 = 0;
-                int col1 = 0;
-                CustomLine line = null;
-
-                if (minimaxBox.getUp() == 0){
-                    row1 = row*2;
-                    col1 = col;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard , copyGame);
-                    copyGame.swapTurn();
-
-
-                    currentScore = Min(depth-1,copyGame);
-                    if (currentScore > maxScore){
-                        maxScore = currentScore;
-                    }
-
-                }
-                if (minimaxBox.getDown() == 0){
-                    row1 = row*2+2;
-                    col1 = col;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard , copyGame);
-                    copyGame.swapTurn();
-
-
-                    currentScore = Min(depth-1,copyGame);
-                    if (currentScore > maxScore){
-                        maxScore = currentScore;
-                    }
-
-                }
-                if (minimaxBox.getLeft() == 0){
-                    row1 = (row*2)+1;
-                    col1 = col;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard , copyGame);
-                    copyGame.swapTurn();
-
-
-                    currentScore = Min(depth-1,copyGame);
-                    if (currentScore > maxScore){
-                        maxScore = currentScore;
-                    }
-
-                }
-                if (minimaxBox.getRight() == 0){
-                    row1 = (row*2)+1;
-                    col1 = col+1;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard , copyGame);
-                    copyGame.swapTurn();
-
-                    currentScore = Min(depth-1,copyGame);
-                    if (currentScore > maxScore){
-                        maxScore = currentScore;
-                    }
-                }
-            }
-        }
-
-        return maxScore;
-    }
-
-    public int Min(int depth , Game copyGame){
-        //System.out.println("current depth is" + depth);
-        if (depth == 0 || endGame(copyGame)){
-            return eval(copyGame);
-        }
-        int minScore = Integer.MAX_VALUE;
-        int currentScore;
-
-        for (NodeBox minimaxBox : copyGame.nodeBoard.NodeCountArrays[4]){
-            if (minimaxBox.lineCount() < 4){
-
-                int row = minimaxBox.getBoxRow();
-                int col = minimaxBox.getBoxCol();
-
-                int row1 = 0;
-                int col1 = 0;
-                CustomLine line = null;
-
-                if (minimaxBox.getUp() == 0){
-                    row1 = row*2;
-                    col1 = col;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard ,copyGame);
-                    copyGame.swapTurn();
-
-
-                    currentScore = Max(depth-1,copyGame);
-                    if (currentScore < minScore){
-                        minScore = currentScore;
-                    }
-
-                }
-                if (minimaxBox.getDown() == 0){
-                    row1 = row*2+2;
-                    col1 = col;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard ,copyGame);
-                    copyGame.swapTurn();
-
-
-                    currentScore = Max(depth-1,copyGame);
-                    if (currentScore < minScore){
-                        minScore = currentScore;
-                    }
-
-                }
-                if (minimaxBox.getLeft() == 0){
-                    row1 = (row*2)+1;
-                    col1 = col;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard ,copyGame);
-                    copyGame.swapTurn();
-
-
-                    currentScore = Max(depth-1,copyGame);
-                    if (currentScore < minScore){
-                        minScore = currentScore;
-                    }
-
-                }
-                if (minimaxBox.getRight() == 0){
-                    row1 = (row*2)+1;
-                    col1 = col+1;
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard ,copyGame);
-                    copyGame.swapTurn();
-
-
-                    currentScore = Max(depth-1,copyGame);
-                    if (currentScore < minScore){
-                        minScore = currentScore;
-                    }
-                }
-            }
-        }
-
-        return minScore;
-    }
-
-    public int eval(Game copyGame){
-        if (copyGame.turn == SECOND_PLAYER && copyGame.second.getScore() > (gameBoard.getBoardSize()*gameBoard.getBoardSize()/2) ){
-            return Integer.MAX_VALUE;
-        }
-        if (copyGame.turn == FIRST_PLAYER && copyGame.first.getScore() > (gameBoard.getBoardSize()*gameBoard.getBoardSize()/2) ){
-            return Integer.MIN_VALUE;
-        }
-        int currentScore = copyGame.second.getScore() - copyGame.first.getScore();
-        if (copyGame.turn == SECOND_PLAYER){
-            return currentScore + copyGame.nodeBoard.NodeCountArrays[3].size();
-        }
-        else {
-            return currentScore - copyGame.nodeBoard.NodeCountArrays[3].size();
-        }
-    }
-
-    public CustomLine getTurnFromMiniMax(Game mm) {
-        Game copyGame = new Game(mm.first.DeepCopyPlayer() , mm.second.DeepCopyPlayer() , mm.getGameType() , mm.gameBoard.DeepCopyBoard() , mm.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize()) , mm.getTurn());
-
-        int maxScore = Integer.MIN_VALUE;
-        int minScore = Integer.MAX_VALUE;
-        int currentScore;
-        CustomLine bestLine = null;
-
-        int d = 3;
-
-        for (NodeBox minimaxBox : copyGame.nodeBoard.NodeCountArrays[4]) {
-            if (minimaxBox.lineCount() < 4) {
-                int row = minimaxBox.getBoxRow();
-                int col = minimaxBox.getBoxCol();
-
-                int row1 = 0;
-                int col1 = 0;
-                CustomLine line = null;
-
-
-                if (minimaxBox.getUp() == 0) {
-                    row1 = row * 2;
-                    col1 = col;
-                    line = new CustomLine(row1, col1, copyGame.gameBoard.getHorizontalLines()[row][col]);
-
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard , copyGame);
-                    copyGame.swapTurn();
-
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        currentScore = Min(d,copyGame);
-                    }
-
-                    else{
-                        currentScore = Max(d,copyGame);
-                    }
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        if (currentScore > maxScore){
-                            maxScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-                    else {
-                        if (currentScore < minScore){
-                            minScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-
-                }
-                if (minimaxBox.getDown() == 0) {
-                    row1 = row * 2 + 2;
-                    col1 = col;
-                    line = new CustomLine(row1, col1, copyGame.gameBoard.getHorizontalLines()[row + 1][col]);
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard , copyGame);
-                    copyGame.swapTurn();
-
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        currentScore = Min(d,copyGame);
-                    }
-
-                    else{
-                        currentScore = Max(d,copyGame);
-                    }
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        if (currentScore > maxScore){
-                            maxScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-                    else {
-                        if (currentScore < minScore){
-                            minScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-
-                }
-                if (minimaxBox.getLeft() == 0) {
-                    row1 = (row * 2) + 1;
-                    col1 = col;
-                    line = new CustomLine(row1, col1, copyGame.gameBoard.getVerticalLines()[col][row]);
-
-                    int before = copyGame.nodeBoard.NodeCountArrays[3].size();
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-                    int after = copyGame.nodeBoard.NodeCountArrays[3].size();
-
-                    if (before!=after){
-                        if (copyGame.getTurn() == FIRST_PLAYER){
-                            copyGame.first.setScore(copyGame.first.getScore()+1);
-                        }
-                        else {
-                            copyGame.second.setScore(copyGame.second.getScore()+1);
-                        }
-                    }
-                    copyGame.swapTurn();
-
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        currentScore = Min(d,copyGame);
-                    }
-
-                    else{
-                        currentScore = Max(d,copyGame);
-                    }
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        if (currentScore > maxScore){
-                            maxScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-                    else {
-                        if (currentScore < minScore){
-                            minScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-
-                }
-                if (minimaxBox.getRight() == 0) {
-                    row1 = (row * 2) + 1;
-                    col1 = col + 1;
-                    line = new CustomLine(row1, col1, copyGame.gameBoard.getVerticalLines()[col + 1][row]);
-
-                    NodeBoard BeforeNodeBoard = copyGame.nodeBoard.DeepCopyNodeBoard(gameBoard.getBoardSize());
-                    copyGame.nodeBoard.SetNewLineMiniMax(row1,col1);
-
-                    updateScoreInMinimax(BeforeNodeBoard ,copyGame.nodeBoard , copyGame);
-                    copyGame.swapTurn();
-
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        currentScore = Min(d,copyGame);
-                    }
-
-                    else{
-                        currentScore = Max(d,copyGame);
-                    }
-
-                    if (copyGame.getTurn() == FIRST_PLAYER){
-                        if (currentScore > maxScore){
-                            maxScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-                    else {
-                        if (currentScore < minScore){
-                            minScore = currentScore;
-                            bestLine = line;
-                        }
-                    }
-                }
-
-            }
-        }
-        return bestLine;
-    }
-
-    public void updateScoreInMinimax(NodeBoard before , NodeBoard after , Game gameCopy){
-        if (countTotalBoxes(before)-countTotalBoxes(after) == 1){
-            if (gameCopy.turn == FIRST_PLAYER){
-                gameCopy.first.setScore(gameCopy.first.getScore()+1);
-            }
-            else {
-                gameCopy.second.setScore(gameCopy.second.getScore()+1);
-            }
-        }
-
-    }
-
-    public int countTotalBoxes(NodeBoard nb){
-        return  nb.NodeCountArrays[3].size();
-    }
-
-
-    public boolean endGame(Game mm){
-        if (mm.getFirst().getScore() + mm.getSecond().getScore() == (mm.gameBoard.getBoardSize()-1) * (mm.gameBoard.getBoardSize()-1)){
-            return true;
-        }
-        return false;
     }
 }

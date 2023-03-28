@@ -136,26 +136,4 @@ public class Board {
         }
         return new Pair<>(resultIndex,results);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public Board DeepCopyBoard() {
-        Board newBoard = new Board(this.boardSize);
-        newBoard.setDots(this.dots);
-        newBoard.setHorizontalLines(this.horizontalLines);
-        newBoard.setVerticalLines(this.verticalLines);
-        return newBoard;
-    }
-
-
 }

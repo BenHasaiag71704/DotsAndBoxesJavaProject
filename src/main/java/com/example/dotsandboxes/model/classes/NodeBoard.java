@@ -1,7 +1,5 @@
 package com.example.dotsandboxes.model.classes;
 
-import javafx.scene.Node;
-
 import java.util.ArrayList;
 
 public class NodeBoard {
@@ -98,6 +96,8 @@ public class NodeBoard {
             col = j;
         }
 
+
+
         if (i%2 == 0){
             if (i==0){
                 // connect up
@@ -140,93 +140,4 @@ public class NodeBoard {
             System.out.println("list number" + " " + i + " " + " " +NodeCountArrays[i].size());
         }
     }
-
-
-
-
-
-
-
-    public void SetNewLineMiniMax(int i , int j){
-        int row;
-        int col;
-        if (i%2==1){
-            row = i/2;
-        }
-        else {
-            row = (i-1)/2;
-        }
-        if (j== boardSize -1 ){
-            col = j-1;
-        }
-        else {
-            col = j;
-        }
-
-        if (i%2 == 0){
-            if (i==0){
-                // connect up
-                // never need to check his neighbor
-                moveToCorrectArraylistCounter(row,col);
-                AllNodes[row][col].setUp(1);
-
-
-
-            }
-            else{
-                //connect down
-                moveToCorrectArraylistCounter(row,col);
-                AllNodes[row][col].setDown(1);
-
-
-
-                if (AllNodes[row][col].getDownNode() != null){
-                    moveToCorrectArraylistCounter(row+1,col);
-                    AllNodes[row+1][col].setUp(1);
-
-
-                }
-            }
-        }
-        else {
-            if (j == boardSize - 1){
-                //connect right
-                moveToCorrectArraylistCounter(row,col);
-                AllNodes[row][col].setRight(1);
-
-
-            }
-            else {
-                //connect left
-                moveToCorrectArraylistCounter(row,col);
-                AllNodes[row][col].setLeft(1);
-
-
-
-                if (AllNodes[row][col].getLeftNode() != null){
-                    moveToCorrectArraylistCounter(row,col-1);
-                    AllNodes[row][col-1].setRight(1);
-
-
-                }
-            }
-        }
-    }
-
-
-
-
-    public NodeBoard DeepCopyNodeBoard(int size){
-        NodeBoard newBoard = new NodeBoard(size);
-        newBoard.NodeCountArrays[4].clear();
-        for (int i = 0 ; i < size-1 ; i++){
-            for (int j = 0 ; j < size - 1 ; j++){
-                newBoard.AllNodes[i][j] = this.AllNodes[i][j].DeepCopyNodeBox();
-                newBoard.NodeCountArrays[4].add(this.AllNodes[i][j]);
-            }
-        }
-
-        return newBoard;
-    }
-
 }
