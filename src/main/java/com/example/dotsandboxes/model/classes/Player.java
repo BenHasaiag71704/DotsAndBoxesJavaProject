@@ -20,4 +20,21 @@ public class Player {
     public boolean isAi() {
         return isAi;
     }
+
+
+
+
+
+
+
+
+
+
+    public Player DeepCopyPlayer(){
+        Player newPlayer = new Player(isAi);
+        newPlayer.setName(name);
+        newPlayer.setScore(score);
+        newPlayer.isAi = isAi;
+        return newPlayer;
+    }
 }
