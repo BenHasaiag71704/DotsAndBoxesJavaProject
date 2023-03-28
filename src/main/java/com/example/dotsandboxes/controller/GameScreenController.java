@@ -11,6 +11,8 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import static com.example.dotsandboxes.model.enums.PlayerIndex.FIRST_PLAYER;
+
 
 public class GameScreenController {
     private Game model;
@@ -111,6 +113,8 @@ public class GameScreenController {
         this.model.nodeBoard.SetNewLine(i,j);
         this.model.nodeBoard.printer();
 
+
+
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
         if (!model.gameStatus()) {
@@ -128,9 +132,17 @@ public class GameScreenController {
 
             if (model.getCurrent().isAi()){
                 //get Line to turn will be using eval
-                CustomLine myCustomLine = model.getLineToTurn();
-                Line l = myCustomLine.getCustomLine();
 
+                CustomLine myCustomLine;
+                if (model.nodeBoard.NodeCountArrays[0].size() > 0 || model.nodeBoard.NodeCountArrays[3].size() != 0) {
+                    myCustomLine = model.getLineToTurn();
+                }
+                else{
+                    myCustomLine = model.getTurnFromMiniMax(model);
+                }
+
+
+                Line l = myCustomLine.getCustomLine();
 
 
                 int pos1 = myCustomLine.getPos1();
