@@ -133,6 +133,8 @@ public class GameScreenController {
             if (model.getCurrent().isAi()){
                 //get Line to turn will be using eval
 
+                System.out.print("bla");
+
                 CustomLine myCustomLine;
                 if (model.nodeBoard.NodeCountArrays[0].size() > 0 || model.nodeBoard.NodeCountArrays[3].size() != 0) {
                     myCustomLine = model.getLineToTurn();
