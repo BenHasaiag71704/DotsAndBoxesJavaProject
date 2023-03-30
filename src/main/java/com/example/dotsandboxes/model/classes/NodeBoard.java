@@ -1,9 +1,13 @@
 package com.example.dotsandboxes.model.classes;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+
 import java.util.Stack;
+
+
+import java.util.*;
+
+
 
 public class NodeBoard {
     public NodeBox[][] AllNodes;
@@ -167,6 +171,86 @@ public class NodeBoard {
 
 
 
-
-
+    public int countScc(){
+        return countLargeSccs(this.AllNodes);
     }
+
+
+    public int countLargeSccs(NodeBox[][] countNodeChain) {
+        int boardSize = countNodeChain.length + 1;
+        boolean[][] visited = new boolean[boardSize][boardSize];
+        List<Integer> sccSizes = new ArrayList<>();
+
+        // Traverse all nodes in the matrix
+        for (int i = 0; i < boardSize - 1; i++) {
+            for (int j = 0; j < boardSize - 1; j++) {
+                // Check if the current node has already been visited
+                if (visited[i][j]) {
+                    continue;
+                }
+
+                // Perform DFS from the current node
+                int sccSize = dfs(countNodeChain, i, j, visited);
+
+                // Add the size of the SCC to the list
+                sccSizes.add(sccSize);
+            }
+        }
+
+        // Count the number of SCCs that are larger or equal to 3 nodes
+        int count = 0;
+        for (int size : sccSizes) {
+            if (size >= 3) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+
+
+
+
+    public int dfs(NodeBox[][] countNodeChain, int row, int col, boolean[][] visited) {
+        // Check if the current node has already been visited
+        if (visited[row][col]) {
+            return 0;
+        }
+
+        // Mark the current node as visited
+        visited[row][col] = true;
+
+        // Increment the counter variable
+        int count = 1;
+
+        // Recursively traverse the neighboring nodes
+        NodeBox node = countNodeChain[row][col];
+        if (node.getUpNode() != null) {
+            count += dfs(countNodeChain, row - 1, col, visited);
+        }
+        if (node.getDownNode() != null) {
+            count += dfs(countNodeChain, row + 1, col, visited);
+        }
+        if (node.getLeftNode() != null) {
+            count += dfs(countNodeChain, row, col - 1, visited);
+        }
+        if (node.getRightNode() != null) {
+            count += dfs(countNodeChain, row, col + 1, visited);
+        }
+
+        return count;
+    }
+
+
+
+    public void printDfs(){
+        boolean[][] visited = new boolean[boardSize][boardSize];
+        int sccSize = dfs(this.AllNodes, 0, 0, visited);
+        System.out.println("Size of SCC: " + sccSize);
+    }
+
+
+
+
+}

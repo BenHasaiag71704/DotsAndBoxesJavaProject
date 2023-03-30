@@ -117,6 +117,9 @@ public class GameScreenController {
         this.model.nodeBoard.printer();
 
 
+        System.out.println(this.model.nodeBoard.countScc());
+
+
 
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
