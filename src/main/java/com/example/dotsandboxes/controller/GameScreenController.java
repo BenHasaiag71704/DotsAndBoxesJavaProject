@@ -119,7 +119,7 @@ public class GameScreenController {
         this.model.setMovesCounter();
 
         NodeBox temp = this.model.nodeBoard.findNodeInSmallestSCC(this.model.nodeBoard.AllNodes);
-        System.out.println("\nthe row is " + temp.getBoxRow() + "and the col is " + temp.getBoxCol());
+        //System.out.println("\nthe row is " + temp.getBoxRow() + "and the col is " + temp.getBoxCol());
         //System.out.println(this.model.eval())
 
 

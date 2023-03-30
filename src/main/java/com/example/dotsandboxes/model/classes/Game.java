@@ -425,8 +425,10 @@ public class Game {
         }
         if (this.nodeBoard.NodeCountArrays[0].size() == 0 && this.nodeBoard.NodeCountArrays[1].size() == 0){
             NodeBox Temp = this.nodeBoard.findNodeInSmallestSCC(this.nodeBoard.AllNodes);
-            if (Temp.getBoxCol() == col && Temp.getBoxRow() == row){
-                score = score + 7;
+            if (Temp != null) {
+                if (Temp.getBoxCol() == col && Temp.getBoxRow() == row) {
+                    score = score + 7;
+                }
             }
         }
         return score;
