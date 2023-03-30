@@ -260,10 +260,14 @@ public class NodeBoard {
 
     public void UndoMove(int row , int col , int Number){
         //num = 1 up , num = 2 down , num = 3 left , num = 4 right
+
+        // disconect the line
+        // reconnect the nodes
+        // set the nodes to there correct placement
         if (Number == 1){
-
-
             this.AllNodes[row][col].setUp(0);
+
+            //sent to the function after the change in the line count
             reSetPlacementInArray(row,col);
 
             if (row > 0){
@@ -314,11 +318,15 @@ public class NodeBoard {
 
 
     public void reSetPlacementInArray(int row , int col){
+        // here we already changed the numer of lines in the node
         int count = AllNodes[row][col].lineCount();
+        // if its less then 3 , add it to the count it currently here and remove from the one it WAS
         if (count < 3){
             NodeCountArrays[count+1].remove(AllNodes[row][col]);
             NodeCountArrays[count].add(AllNodes[row][col]);
         }
+        // if its 3 , we had 4 edges , means it wasnt in any arraylist (array4 holds all , no array hold the close ones)
+        // therefor just enter it into the 3 array , which will be count (count never bigger then 3 at this case)
         else{
             NodeCountArrays[count].add(AllNodes[row][col]);
         }

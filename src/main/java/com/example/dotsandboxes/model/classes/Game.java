@@ -205,21 +205,30 @@ public class Game {
         int scoreP1 = 0;
         int scoreP2 = 0;
 
+
+        //for each box , try all 4 moves , if they are posible to make
         for (NodeBox b : this.nodeBoard.NodeCountArrays[4]){
 
             int row = b.getBoxRow();
             int col = b.getBoxCol();
 
+            // the row and col of the box
+
             if (b.getUp() == 0){
                 int row1 = row*2;
                 int col1 = col;
+
+                // row1 col1 are the row and col of the calculated line
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row][col]);
 
+                //saving the number of total boxes and number of box 3 before the move
                 totalBefore = this.nodeBoard.numOfBoxesInGame();
                 size3Before = this.nodeBoard.NodeCountArrays[3].size();
 
                 this.nodeBoard.SetNewLine(row1,col1);
 
+
+                //saving the number of total boxes and number of box 3 after the move
                 totalAfter = this.nodeBoard.numOfBoxesInGame();
                 size3After = this.nodeBoard.NodeCountArrays[3].size();
 
@@ -227,6 +236,7 @@ public class Game {
                 scoreP1 = this.first.getScore();
                 scoreP2 = this.second.getScore();
 
+                // if the total numebr changed , we gain a point
                 if (totalBefore - totalAfter == 1){
                     if (this.turn == FIRST_PLAYER){
                         scoreP1 += 1;
@@ -235,6 +245,8 @@ public class Game {
                         scoreP2 += 1;
                     }
                 }
+                // if it wasnt , we need to see that we didnt give the enemy a box to close  , therefor if the
+                // size ISNT the same , give the enemy a point
                 else if (size3Before!=size3After){
                         if (this.turn == FIRST_PLAYER){
                             scoreP2 += 1;
@@ -243,11 +255,14 @@ public class Game {
                             scoreP1 += 1;
                         }
                 }
-
+                //calc the score
                 tempScore = eval(scoreP1 , scoreP2 , row ,col);
+
+                // undo the move
                 this.nodeBoard.UndoMove(row,col,1);
 
 
+                // check if the score is the best so far
                 if (tempScore > score){
                     score = tempScore;
                     bestMove = line;
@@ -393,13 +408,17 @@ public class Game {
     }
 
 
-
+    // s1 is score of player 1
+    // s2 is score of player 2
+    // int row/col are the row and col of the box that was just played
+    // eval is running AFTER the mov has been made
     public int eval(int s1 , int s2 , int row , int col){
         int score = 0;
 
-
+        // getting the diffrence between the scores
         int grade = s2*10 - s1*10;
 
+        // check if the ai has closed a box and how much 3 edges boxes has left
         if (this.turn == FIRST_PLAYER){
             score = grade + this.nodeBoard.NodeCountArrays[3].size()*10;
         }
@@ -407,7 +426,11 @@ public class Game {
             score = grade - this.nodeBoard.NodeCountArrays[3].size()*10;
         }
 
+        // check the number of long chain the ai want to achive
+
+        // if p1moves-p2moves is odd , bot want even number of long chains and vice versa
         if ((this.countP1Moves - this.countP2Moves)%2==1){
+            // count Scc will count the number of long chains equal or bigger then 3
             if (this.nodeBoard.countScc()%2==0){
                 score = score + 5;
             }
@@ -423,6 +446,7 @@ public class Game {
                 score = score - 5;
             }
         }
+        // get the smallest scc which can be placed on , if there any any (last move temp=null)
         if (this.nodeBoard.NodeCountArrays[0].size() == 0 && this.nodeBoard.NodeCountArrays[1].size() == 0){
             NodeBox Temp = this.nodeBoard.findNodeInSmallestSCC(this.nodeBoard.AllNodes);
             if (Temp != null) {
