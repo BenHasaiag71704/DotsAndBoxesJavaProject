@@ -251,11 +251,11 @@ public class NodeBoard {
     }
 
 
-    public void printDfs(){
-        boolean[][] visited = new boolean[boardSize][boardSize];
-        int sccSize = dfs(this.AllNodes, 0, 0, visited);
-        System.out.println("Size of SCC: " + sccSize);
-    }
+//    public void printDfs(){
+//        boolean[][] visited = new boolean[boardSize][boardSize];
+//        int sccSize = dfs(this.AllNodes, 0, 0, visited);
+//        System.out.println("Size of SCC: " + sccSize);
+//    }
 
 
     public void UndoMove(int row , int col , int Number){
@@ -356,6 +356,10 @@ public class NodeBoard {
         return smallestSCCNode;
     }
 
+
+    public int numOfBoxesInGame(){
+        return this.NodeCountArrays[0].size() +  this.NodeCountArrays[1].size() +  this.NodeCountArrays[2].size() +  this.NodeCountArrays[3].size();
+    }
 
 
 }

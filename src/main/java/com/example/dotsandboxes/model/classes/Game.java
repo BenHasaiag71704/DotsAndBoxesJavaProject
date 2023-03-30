@@ -190,6 +190,8 @@ public class Game {
 
 
     public CustomLine getMove(){
+
+
         int score = Integer.MIN_VALUE;
         int tempScore;
         CustomLine bestMove = null;
@@ -210,11 +212,11 @@ public class Game {
                 int col1 = col;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row][col]);
 
-                before = this.nodeBoard.NodeCountArrays[3].size();
+                before = this.nodeBoard.numOfBoxesInGame();
 
                 this.nodeBoard.SetNewLine(row1,col1);
 
-                after = this.nodeBoard.NodeCountArrays[3].size();
+                after = this.nodeBoard.numOfBoxesInGame();
 
 
                 scoreP1 = this.first.getScore();
@@ -243,9 +245,9 @@ public class Game {
                 int col1 = col;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row+1][col]);
 
-                before = this.nodeBoard.NodeCountArrays[3].size();
+                before = this.nodeBoard.numOfBoxesInGame();
                 this.nodeBoard.SetNewLine(row1,col1);
-                after = this.nodeBoard.NodeCountArrays[3].size();
+                after = this.nodeBoard.numOfBoxesInGame();
 
                 scoreP1 = this.first.getScore();
                 scoreP2 = this.second.getScore();
@@ -274,9 +276,9 @@ public class Game {
                 int col1 = col;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col][row]);
 
-                before = this.nodeBoard.NodeCountArrays[3].size();
+                before = this.nodeBoard.numOfBoxesInGame();
                 this.nodeBoard.SetNewLine(row1,col1);
-                after  = this.nodeBoard.NodeCountArrays[3].size();
+                after  = this.nodeBoard.numOfBoxesInGame();
 
                 scoreP1 = this.first.getScore();
                 scoreP2 = this.second.getScore();
@@ -304,9 +306,9 @@ public class Game {
                 int col1 = col+1;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col+1][row]);
 
-                before = this.nodeBoard.NodeCountArrays[3].size();
+                before = this.nodeBoard.numOfBoxesInGame();
                 this.nodeBoard.SetNewLine(row1,col1);
-                after  = this.nodeBoard.NodeCountArrays[3].size();
+                after  = this.nodeBoard.numOfBoxesInGame();
 
 
                 scoreP1 = this.first.getScore();
