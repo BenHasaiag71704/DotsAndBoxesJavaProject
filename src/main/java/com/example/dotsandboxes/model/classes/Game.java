@@ -6,6 +6,7 @@ import javafx.scene.shape.Line;
 import javafx.util.Pair;
 
 import static com.example.dotsandboxes.model.enums.PlayerIndex.FIRST_PLAYER;
+import static com.example.dotsandboxes.model.enums.PlayerIndex.SECOND_PLAYER;
 
 public class Game {
     // first and second player
@@ -24,6 +25,9 @@ public class Game {
 
     public NodeBoard nodeBoard;
 
+    public int countP1Moves;
+    public int countP2Moves;
+
 
     public Game() {
         this.turn = FIRST_PLAYER;
@@ -35,6 +39,8 @@ public class Game {
         this.second = second;
         this.gameBoard = gameBoard;
         this.turn = FIRST_PLAYER;
+        this.countP1Moves = 0;
+        this.countP2Moves = 0;
     }
 
 
@@ -182,13 +188,193 @@ public class Game {
 
 
 
+    public CustomLine getMove(){
+        int score = Integer.MIN_VALUE;
+        int tempScore;
+        CustomLine bestMove = null;
+
+        int before = 0;
+        int after = 0;
+
+        int scoreP1 = 0;
+        int scoreP2 = 0;
+
+        for (NodeBox b : this.nodeBoard.NodeCountArrays[4]){
+
+            int row = b.getBoxRow();
+            int col = b.getBoxCol();
+
+            if (b.getUp() == 0){
+                int row1 = row*2;
+                int col1 = col;
+                CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row][col]);
+
+                before = this.nodeBoard.NodeCountArrays[3].size();
+
+                this.nodeBoard.SetNewLine(row1,col1);
+
+                after = this.nodeBoard.NodeCountArrays[3].size();
 
 
+                scoreP1 = this.first.getScore();
+                scoreP2 = this.second.getScore();
+
+                if (before - after == 1){
+                    if (this.turn == FIRST_PLAYER){
+                        scoreP1 += 1;
+                    }
+                    else {
+                        scoreP2 += 1;
+                    }
+                }
+
+                tempScore = eval(scoreP1 , scoreP2);
+                this.nodeBoard.UndoMove(row,col,1);
 
 
-    public int eval(){
-        return 1;
+                if (tempScore > score){
+                    score = tempScore;
+                    bestMove = line;
+                }
+            }
+            if (b.getDown() == 0){
+                int row1 = row*2+2;
+                int col1 = col;
+                CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row+1][col]);
+
+                before = this.nodeBoard.NodeCountArrays[3].size();
+                this.nodeBoard.SetNewLine(row1,col1);
+                after = this.nodeBoard.NodeCountArrays[3].size();
+
+                scoreP1 = this.first.getScore();
+                scoreP2 = this.second.getScore();
+
+                if (before - after == 1){
+                    if (this.turn == FIRST_PLAYER){
+                        scoreP1 += 1;
+                    }
+                    else {
+                        scoreP2 += 1;
+                    }
+                }
+
+                tempScore = eval(scoreP1 , scoreP2);
+                this.nodeBoard.UndoMove(row,col,2);
+
+
+                if (tempScore > score){
+                    score = tempScore;
+                    bestMove = line;
+                }
+
+            }
+            if (b.getLeft() == 0){
+                int row1 = (row*2)+1;
+                int col1 = col;
+                CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col][row]);
+
+                before = this.nodeBoard.NodeCountArrays[3].size();
+                this.nodeBoard.SetNewLine(row1,col1);
+                after  = this.nodeBoard.NodeCountArrays[3].size();
+
+                scoreP1 = this.first.getScore();
+                scoreP2 = this.second.getScore();
+
+                if (before - after == 1){
+                    if (this.turn == FIRST_PLAYER){
+                        scoreP1 += 1;
+                    }
+                    else {
+                        scoreP2 += 1;
+                    }
+                }
+                tempScore = eval(scoreP1,scoreP2);
+                this.nodeBoard.UndoMove(row,col,3);
+
+
+                if (tempScore > score){
+                    score = tempScore;
+                    bestMove = line;
+                }
+
+            }
+            if (b.getRight() == 0){
+                int row1 = (row*2)+1;
+                int col1 = col+1;
+                CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col+1][row]);
+
+                before = this.nodeBoard.NodeCountArrays[3].size();
+                this.nodeBoard.SetNewLine(row1,col1);
+                after  = this.nodeBoard.NodeCountArrays[3].size();
+
+
+                scoreP1 = this.first.getScore();
+                scoreP2 = this.second.getScore();
+
+                if (before - after == 1){
+                    if (this.turn == FIRST_PLAYER){
+                        scoreP1 += 1;
+                    }
+                    else {
+                        scoreP2 += 1;
+                    }
+                }
+                tempScore = eval(scoreP1,scoreP2);
+                this.nodeBoard.UndoMove(row,col,4);
+
+
+                if (tempScore > score){
+                    score = tempScore;
+                    bestMove = line;
+                }
+            }
+
+        }
+        return bestMove;
     }
+
+
+
+    public int eval(int s1 , int s2){
+        int score = 0;
+
+
+        int grade = s2*10 - s1*10;
+
+        if (this.turn == FIRST_PLAYER){
+            score = grade + this.nodeBoard.NodeCountArrays[3].size()*10;
+        }
+        else {
+            score = grade - this.nodeBoard.NodeCountArrays[3].size()*10;
+        }
+
+        if ((this.countP1Moves - this.countP2Moves)%2==1){
+            if (this.nodeBoard.countScc()%2==0){
+                score = score + 5;
+            }
+            else {
+                score = score - 5;
+            }
+        }
+        else {
+            if (this.nodeBoard.countScc()%2==1){
+                score = score + 5;
+            }
+            else {
+                score = score - 5;
+            }
+        }
+        if (this.nodeBoard.NodeCountArrays[0].size() == 0 && this.nodeBoard.NodeCountArrays[1].size() == 0){
+
+        }
+        return score;
+
+    }
+
+
+
+
+
 
 
     public NodeBoard getNodeBoard() {
@@ -198,4 +384,19 @@ public class Game {
     public void setNodeBoard(NodeBoard nodeBoard) {
         this.nodeBoard = nodeBoard;
     }
+
+    public void setMovesCounter(){
+        if (this.turn == FIRST_PLAYER){
+            this.countP1Moves++;
+        }
+        else {
+            this.countP2Moves++;
+        }
+    }
+
+    public void setTurn(PlayerIndex turn) {
+        this.turn = turn;
+    }
+
+
 }

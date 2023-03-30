@@ -1,5 +1,7 @@
 package com.example.dotsandboxes.model.classes;
 
+import com.example.dotsandboxes.model.enums.PlayerIndex;
+
 import java.util.ArrayList;
 
 import java.util.Stack;
@@ -12,6 +14,7 @@ import java.util.*;
 public class NodeBoard {
     public NodeBox[][] AllNodes;
     public int boardSize;
+
 //    public ArrayList<NodeBox> Nodes0;
 //    public ArrayList<NodeBox> Nodes1;
 //    public ArrayList<NodeBox> Nodes2;
@@ -19,6 +22,11 @@ public class NodeBoard {
 //    public ArrayList<NodeBox> NodesAll;
 
     public ArrayList<NodeBox>[] NodeCountArrays;
+
+    public int p1Score;
+    public int p2Score;
+
+
 
 
     public NodeBoard(int boardSize) {
@@ -31,6 +39,8 @@ public class NodeBoard {
 //        NodesAll = new ArrayList<>();  4
 
         NodeCountArrays = new ArrayList[5];
+
+
 
 
         for (int i = 0 ; i < 5; i++){
@@ -210,8 +220,6 @@ public class NodeBoard {
 
 
 
-
-
     public int dfs(NodeBox[][] countNodeChain, int row, int col, boolean[][] visited) {
         // Check if the current node has already been visited
         if (visited[row][col]) {
@@ -243,12 +251,81 @@ public class NodeBoard {
     }
 
 
-
     public void printDfs(){
         boolean[][] visited = new boolean[boardSize][boardSize];
         int sccSize = dfs(this.AllNodes, 0, 0, visited);
         System.out.println("Size of SCC: " + sccSize);
     }
+
+
+    public void UndoMove(int row , int col , int Number){
+        //num = 1 up , num = 2 down , num = 3 left , num = 4 right
+        if (Number == 1){
+
+
+            this.AllNodes[row][col].setUp(0);
+            reSetPlacementInArray(row,col);
+
+            if (row > 0){
+                this.AllNodes[row-1][col].setDown(0);
+                reSetPlacementInArray(row-1,col);
+
+                this.AllNodes[row][col].setUpNode(this.AllNodes[row-1][col]);
+                this.AllNodes[row-1][col].setDownNode(this.AllNodes[row][col]);
+            }
+        }
+        if (Number == 2){
+            this.AllNodes[row][col].setDown(0);
+            reSetPlacementInArray(row,col);
+
+            if (row < boardSize - 2){
+                this.AllNodes[row+1][col].setUp(0);
+                reSetPlacementInArray(row+1,col);
+
+                this.AllNodes[row][col].setDownNode(this.AllNodes[row+1][col]);
+                this.AllNodes[row+1][col].setUpNode(this.AllNodes[row][col]);
+            }
+        }
+        if (Number == 3){
+            this.AllNodes[row][col].setLeft(0);
+            reSetPlacementInArray(row,col);
+
+            if (col > 0){
+                this.AllNodes[row][col-1].setRight(0);
+                reSetPlacementInArray(row,col-1);
+
+                this.AllNodes[row][col].setLeftNode(this.AllNodes[row][col-1]);
+                this.AllNodes[row][col-1].setRightNode(this.AllNodes[row][col]);
+            }
+        }
+        if (Number == 4){
+            this.AllNodes[row][col].setRight(0);
+            reSetPlacementInArray(row,col);
+
+            if (col < boardSize - 2){
+                this.AllNodes[row][col+1].setLeft(0);
+                reSetPlacementInArray(row,col+1);
+
+                this.AllNodes[row][col].setRightNode(this.AllNodes[row][col+1]);
+                this.AllNodes[row][col+1].setLeftNode(this.AllNodes[row][col]);
+            }
+        }
+    }
+
+
+    public void reSetPlacementInArray(int row , int col){
+        int count = AllNodes[row][col].lineCount();
+        if (count < 3){
+            NodeCountArrays[count+1].remove(AllNodes[row][col]);
+            NodeCountArrays[count].add(AllNodes[row][col]);
+        }
+        else{
+            NodeCountArrays[count].add(AllNodes[row][col]);
+        }
+    }
+
+
+
 
 
 

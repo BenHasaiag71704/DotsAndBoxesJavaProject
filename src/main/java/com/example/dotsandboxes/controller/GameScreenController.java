@@ -115,9 +115,13 @@ public class GameScreenController {
 
         this.model.nodeBoard.SetNewLine(i,j);
         this.model.nodeBoard.printer();
+        this.model.setMovesCounter();
+
+        //System.out.println(this.model.eval());
 
 
-        System.out.println(this.model.nodeBoard.countScc());
+        //System.out.println(this.model.nodeBoard.countScc());
+        //System.out.println(this.model.eval());
 
 
 
@@ -138,7 +142,12 @@ public class GameScreenController {
 
             if (model.getCurrent().isAi()){
                 //get Line to turn will be using eval
-                CustomLine myCustomLine = model.getLineToTurn();
+
+
+
+                //CustomLine myCustomLine = model.getLineToTurn();
+
+                CustomLine myCustomLine = model.getMove();
                 Line l = myCustomLine.getCustomLine();
 
 
