@@ -347,8 +347,10 @@ public class NodeBoard {
         NodeBox smallestSCCNode = null;
         for (Map.Entry<NodeBox, Integer> entry : sccMap.entrySet()) {
             if (entry.getValue() < minSize) {
-                minSize = entry.getValue();
-                smallestSCCNode = entry.getKey();
+                if (entry.getKey().lineCount()!=4){
+                    minSize = entry.getValue();
+                    smallestSCCNode = entry.getKey();
+                }
             }
         }
 
