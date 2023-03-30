@@ -63,8 +63,8 @@ public class Game {
 
     // check if a move is valid or not
     public boolean checkAndExecuteMove(Line line) {
-        if (line.getStroke() == Color.YELLOW || line.getStroke() == Color.TRANSPARENT) {
-            int scoreObtained = gameBoard.checkBoxFormed(line);
+        if (line.getStroke() == Color.GREEN || line.getStroke() == Color.TRANSPARENT) {
+            int scoreObtained = gameBoard.checkBox(line);
             if (turn == FIRST_PLAYER){
                 first.setScore(first.getScore() + scoreObtained);
                 line.setStroke(Color.BLUE);
@@ -109,34 +109,6 @@ public class Game {
         gameBoard.initializeBoxes();
     }
 
-
-//    public CustomLine getLineToTurn() {
-//        int pos1;
-//        int pos2;
-//
-//        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
-//            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
-//                if (this.gameBoard.getVerticalLines()[i][j].getStroke() == Color.TRANSPARENT){
-//                    pos1 = j;
-//                    pos2 = i;
-//                    pos1 = pos1*2+1;
-//                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getVerticalLines()[i][j]);
-//                    return line;
-//                }
-//            }
-//        }
-//        for (int i = 0 ; i < this.gameBoard.getBoardSize() ; i++){
-//            for (int j = 0 ; j < this.gameBoard.getBoardSize() - 1 ; j++){
-//                if (this.gameBoard.getHorizontalLines()[i][j].getStroke() == Color.TRANSPARENT){
-//                    pos1 = i*2;
-//                    pos2 = j;
-//                    CustomLine line = new CustomLine(pos1,pos2,this.gameBoard.getHorizontalLines()[i][j]);
-//                    return line;
-//                }
-//            }
-//        }
-//        return null;
-//    }
 
 
 

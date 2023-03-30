@@ -101,8 +101,8 @@ public class Board {
 
 
 
-    public int checkBoxFormed(Line line) {
-        Pair<Integer,Box[]> parentData = getParentBoxes(line);
+    public int checkBox(Line line) {
+        Pair<Integer,Box[]> parentData = getParent(line);
         Box[] parents = parentData.getValue();
         int numberOfParents = parentData.getKey();
         switch (numberOfParents) {
@@ -120,7 +120,7 @@ public class Board {
             }
         }
     }
-    public Pair<Integer,Box[]> getParentBoxes(Line line) {
+    public Pair<Integer,Box[]> getParent(Line line) {
         Box[] results = new Box[2];
         int resultIndex = 0;
         for (int i = 0; i < boardSize -1; i++) {

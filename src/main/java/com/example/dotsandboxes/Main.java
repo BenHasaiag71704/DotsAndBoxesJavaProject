@@ -15,10 +15,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
-
-
         int sceneX = 800;
         int sceneY = 800;
         Game model = new Game();

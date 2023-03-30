@@ -19,8 +19,8 @@ public class MainMenuScreenController {
         this.model = model;
         this.view = view;
         this.stage = stage;
-        setButtonActions(view.getHumanVsHuman(),view.getHumanVsAi());
-        setButtonStyles(view.getHumanVsHuman(),view.getHumanVsAi());
+        buttonSetOnAction(view.getHumanVsHuman(),view.getHumanVsAi());
+        setStyles(view.getHumanVsHuman(),view.getHumanVsAi());
         setLabelStyle(view.getTitle());
         view.start(stage);
     }
@@ -45,14 +45,14 @@ public class MainMenuScreenController {
     }
     private void setLabelStyle(Label title) {
         title.setAlignment(Pos.CENTER);
-        title.setStyle("-fx-font-size: 75px;");
+        title.setStyle("-fx-font-size: 75px;-fx-font-family: 'Bell MT'");
         title.setTextFill(Color.BLACK);
     }
-    private void setButtonStyles(Button humanVsHuman, Button humanVsAi) {
+    private void setStyles(Button humanVsHuman, Button humanVsAi) {
         humanVsHuman.setPadding(new Insets(10,20,10,20));
         humanVsAi.setPadding(new Insets(10,34,10,34));
     }
-    private void setButtonActions(Button humanVsHuman, Button humanVsAi) {
+    private void buttonSetOnAction(Button humanVsHuman, Button humanVsAi) {
         humanVsHuman.setOnAction(buttonEvent -> {
             try {
                 handleHumanVsHuman();

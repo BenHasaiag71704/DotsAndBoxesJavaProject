@@ -54,10 +54,10 @@ public class GameSetUpScreenController {
     private void setButtonStyle(Button moveToGame) {}
     private void setLabelStyle(Label title, Label errorText) {
         title.setAlignment(Pos.CENTER);
-        title.setStyle("-fx-font-size: 50px;");
-        title.setTextFill(Color.BLUE);
+        title.setStyle("-fx-font-size: 50px;-fx-font-family: 'Bell MT'");
+        title.setTextFill(Color.BLACK);
         errorText.setVisible(false);
         errorText.setTextFill(Color.RED);
-        errorText.setStyle("-fx-font-size: 20px;");
+        errorText.setStyle("-fx-font-size: 20px;-fx-font-family: 'Bell MT'");
     }
 }

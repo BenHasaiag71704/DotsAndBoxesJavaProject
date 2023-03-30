@@ -36,7 +36,7 @@ public class GameScreenController {
         setLineButtons(model.getGameBoard().getVerticalLines() , false);
 
         // todo , if first player is an ai , do the first move Onced
-        setLabels(view.getLabels(),startingX,startingY);
+        setGameScreenText(view.getLabels(),startingX,startingY);
         view.start(stage);
     }
 
@@ -69,7 +69,7 @@ public class GameScreenController {
                 lines[i][j].setOnMouseEntered((mouseEvent -> {
                     Line hoveredLine = (Line) mouseEvent.getSource();
                     if (hoveredLine.getStroke() != Color.RED && hoveredLine.getStroke() != Color.BLUE) {
-                        hoveredLine.setStroke(Color.YELLOW);
+                        hoveredLine.setStroke(Color.GREEN);
                     }
                 }));
                 lines[i][j].setOnMouseExited((mouseEvent -> {
@@ -82,27 +82,32 @@ public class GameScreenController {
         }
 
     }
-    public void setLabels(Label[] labels,double startingX,double startingY) {
+    public void setGameScreenText(Label[] labels, double startingX, double startingY) {
         labels[0] = new Label();
-        labels[0].setText("" + view.getStringCurrentTurn());
-        labels[0].setLayoutX(startingX-labels[0].getWidth()/3);
-        labels[0].setLayoutY(startingY-startingY/2);
-        labels[0].setAlignment(Pos.CENTER);
-        labels[0].setStyle("-fx-font-size: 50px;");
-        labels[0].setTextFill(Color.BLACK);
         labels[1] = new Label();
+        labels[2] = new Label();
+
+
+        labels[0].setText("" + view.getStringCurrentTurn());
+        labels[0].setLayoutX(startingX-labels[0].getWidth()/3 - 25);
+        labels[0].setLayoutY(startingY-startingY/2 - 50);
+        labels[0].setAlignment(Pos.TOP_CENTER);
+        labels[0].setStyle("-fx-font-size: 70px;-fx-font-family: 'Bell MT'");
+        labels[0].setTextFill(Color.BLACK);
+
         labels[1].setText(view.getStringScorePlayer1() + " " +model.getFirst().getScore());
         labels[1].setLayoutX(startingX-labels[1].getWidth()/3);
-        labels[1].setLayoutY(startingY-startingY/2+ 75);
-        labels[1].setAlignment(Pos.CENTER);
-        labels[1].setStyle("-fx-font-size: 30px;");
+        labels[1].setLayoutY(startingY-startingY/2+ 25);
+        labels[1].setAlignment(Pos.TOP_CENTER);
+        labels[1].setStyle("-fx-font-size: 40px;-fx-font-family: 'Bell MT'");
         labels[1].setTextFill(Color.BLUE);
-        labels[2] = new Label();
+
+
         labels[2].setText(view.getStringScorePlayer2()+ " " + model.getSecond().getScore());
         labels[2].setLayoutX(startingX-labels[1].getWidth()/3);
-        labels[2].setLayoutY(startingY-startingY/2 + 125);
-        labels[2].setAlignment(Pos.CENTER);
-        labels[2].setStyle("-fx-font-size: 30px;");
+        labels[2].setLayoutY(startingY-startingY/2 + 75);
+        labels[2].setAlignment(Pos.TOP_CENTER);
+        labels[2].setStyle("-fx-font-size: 40px;-fx-font-family: 'Bell MT'");
         labels[2].setTextFill(Color.RED);
     }
 
@@ -110,6 +115,8 @@ public class GameScreenController {
 
         this.model.nodeBoard.SetNewLine(i,j);
         this.model.nodeBoard.printer();
+
+
 
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
@@ -119,7 +126,7 @@ public class GameScreenController {
                 labels[0].setText(results.getValue() + " Won");
             }
             else {
-                labels[0].setText("It's A Tie");
+                labels[0].setText("its a tie");
             }
         }
         else {

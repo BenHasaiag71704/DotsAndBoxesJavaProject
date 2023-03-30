@@ -38,9 +38,9 @@ public class GameScreen extends Application {
         this.player2 =  new SimpleStringProperty(p2.getName());;
         this.player1Score = new SimpleIntegerProperty(p1.getScore());
         this.player2Score = new SimpleIntegerProperty(p2.getScore());
-        this.stringCurrentTurn = new SimpleStringProperty("'s turn");
-        this.stringScorePlayer1 = new SimpleStringProperty(player1.getValue() + "'s score:");
-        this.stringScorePlayer2 = new SimpleStringProperty(player2.getValue() + "'s score:");
+        this.stringCurrentTurn = new SimpleStringProperty("'s to play");
+        this.stringScorePlayer1 = new SimpleStringProperty(player1.getValue() + "'s score - ");
+        this.stringScorePlayer2 = new SimpleStringProperty(player2.getValue() + "'s score - ");
     }
 
     @Override

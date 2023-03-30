@@ -25,14 +25,14 @@ public class GameSetUpScreen extends Application {
 
     public GameSetUpScreen(int sceneX, int sceneY) {
         this.title = new Label("Settings");
-        this.player1Name = new Label("Player 1 name: ");
-        this.errorText = new Label("Invalid Values!");
-        this.player2Name = new Label("Player 2 name: ");
+        this.player1Name = new Label("Player 1 name ");
+        this.errorText = new Label("invalid input");
+        this.player2Name = new Label("Player 2 name ");
         this.boardSize = new Label("Board Size: ");
         this.player1Field = new TextField();
         this.player2Field = new TextField();
         this.boardSizeField = new TextField();
-        this.moveToGame = new Button("Begin Game!");
+        this.moveToGame = new Button("Start");
         this.sceneX = sceneX;
         this.sceneY = sceneY;
     }

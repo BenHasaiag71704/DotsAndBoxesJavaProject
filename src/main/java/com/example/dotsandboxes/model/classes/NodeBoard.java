@@ -1,10 +1,13 @@
 package com.example.dotsandboxes.model.classes;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 public class NodeBoard {
     public NodeBox[][] AllNodes;
-    private int boardSize;
+    public int boardSize;
 //    public ArrayList<NodeBox> Nodes0;
 //    public ArrayList<NodeBox> Nodes1;
 //    public ArrayList<NodeBox> Nodes2;
@@ -16,7 +19,7 @@ public class NodeBoard {
 
     public NodeBoard(int boardSize) {
         this.boardSize = boardSize;
-        AllNodes = new NodeBox[boardSize][boardSize];
+        AllNodes = new NodeBox[boardSize-1][boardSize-1];
 //        Nodes0 = new ArrayList<>();  0
 //        Nodes1 = new ArrayList<>();  1
 //        Nodes2 = new ArrayList<>();  2
@@ -55,7 +58,13 @@ public class NodeBoard {
                 }
                 if (i+1 < boardSize)
                 {
-                    AllNodes[i][j].setDownNode(AllNodes[i+1][j]);
+                    if (i == boardSize - 2)
+                    {
+                        AllNodes[i][j].setDownNode(null);
+                    }
+                    else{
+                        AllNodes[i][j].setDownNode(AllNodes[i+1][j]);
+                    }
                 }
                 if (j-1 >= 0)
                 {
@@ -63,7 +72,13 @@ public class NodeBoard {
                 }
                 if (j+1 < boardSize)
                 {
-                    AllNodes[i][j].setRightNode(AllNodes[i][j+1]);
+                    if (j == boardSize - 2)
+                    {
+                        AllNodes[i][j].setRightNode(null);
+                    }
+                    else{
+                        AllNodes[i][j].setRightNode(AllNodes[i][j+1]);
+                    }
                 }
             }
         }
@@ -113,6 +128,10 @@ public class NodeBoard {
                 if (AllNodes[row][col].getDownNode() != null){
                     moveToCorrectArraylistCounter(row+1,col);
                     AllNodes[row+1][col].setUp(1);
+
+                    // disconnect the nodes from each other
+                    AllNodes[row][col].setDownNode(null);
+                    AllNodes[row+1][col].setUpNode(null);
                 }
             }
         }
@@ -129,6 +148,10 @@ public class NodeBoard {
                 if (AllNodes[row][col].getLeftNode() != null){
                     moveToCorrectArraylistCounter(row,col-1);
                     AllNodes[row][col-1].setRight(1);
+
+                    // disconnect the nodes from each other
+                    AllNodes[row][col].setLeftNode(null);
+                    AllNodes[row][col-1].setRightNode(null);
                 }
             }
         }
@@ -140,4 +163,10 @@ public class NodeBoard {
             System.out.println("list number" + " " + i + " " + " " +NodeCountArrays[i].size());
         }
     }
-}
+
+
+
+
+
+
+    }

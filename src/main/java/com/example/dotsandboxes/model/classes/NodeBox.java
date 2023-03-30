@@ -6,10 +6,10 @@ public class NodeBox {
     private int left;
     private int right;
 
-    private NodeBox upNode;
-    private NodeBox downNode;
-    private NodeBox leftNode;
-    private NodeBox rightNode;
+    public NodeBox upNode;
+    public NodeBox downNode;
+    public NodeBox leftNode;
+    public NodeBox rightNode;
 
     private int boxRow;
     private int boxCol;
