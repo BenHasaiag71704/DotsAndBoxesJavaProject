@@ -1,6 +1,7 @@
 package com.example.dotsandboxes.model.classes;
 
 import com.example.dotsandboxes.model.enums.PlayerIndex;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.util.Pair;
@@ -228,7 +229,7 @@ public class Game {
                     }
                 }
 
-                tempScore = eval(scoreP1 , scoreP2);
+                tempScore = eval(scoreP1 , scoreP2 , row ,col);
                 this.nodeBoard.UndoMove(row,col,1);
 
 
@@ -258,7 +259,7 @@ public class Game {
                     }
                 }
 
-                tempScore = eval(scoreP1 , scoreP2);
+                tempScore = eval(scoreP1 , scoreP2  , row ,col);
                 this.nodeBoard.UndoMove(row,col,2);
 
 
@@ -288,7 +289,7 @@ public class Game {
                         scoreP2 += 1;
                     }
                 }
-                tempScore = eval(scoreP1,scoreP2);
+                tempScore = eval(scoreP1,scoreP2 , row ,col);
                 this.nodeBoard.UndoMove(row,col,3);
 
 
@@ -319,7 +320,7 @@ public class Game {
                         scoreP2 += 1;
                     }
                 }
-                tempScore = eval(scoreP1,scoreP2);
+                tempScore = eval(scoreP1,scoreP2  , row ,col);
                 this.nodeBoard.UndoMove(row,col,4);
 
 
@@ -335,7 +336,7 @@ public class Game {
 
 
 
-    public int eval(int s1 , int s2){
+    public int eval(int s1 , int s2 , int row , int col){
         int score = 0;
 
 
@@ -365,7 +366,10 @@ public class Game {
             }
         }
         if (this.nodeBoard.NodeCountArrays[0].size() == 0 && this.nodeBoard.NodeCountArrays[1].size() == 0){
-
+            NodeBox Temp = this.nodeBoard.findNodeInSmallestSCC(this.nodeBoard.AllNodes);
+            if (Temp.getBoxCol() == col && Temp.getBoxRow() == row){
+                score = score + 7;
+            }
         }
         return score;
 

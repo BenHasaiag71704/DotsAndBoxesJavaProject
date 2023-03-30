@@ -326,7 +326,35 @@ public class NodeBoard {
 
 
 
+    public NodeBox findNodeInSmallestSCC(NodeBox[][] countNodeChain) {
+        // Create a map to store the SCCs and their sizes
+        Map<NodeBox, Integer> sccMap = new HashMap<>();
 
+        // Perform DFS on each unvisited node to compute SCCs
+        boolean[][] visited = new boolean[countNodeChain.length][countNodeChain[0].length];
+        for (int i = 0; i < countNodeChain.length; i++) {
+            for (int j = 0; j < countNodeChain[0].length; j++) {
+                if (!visited[i][j]) {
+                    int size = dfs(countNodeChain, i, j, visited);
+                    NodeBox node = countNodeChain[i][j];
+                    sccMap.put(node, size);
+                }
+            }
+        }
+
+        // Find the smallest SCC
+        int minSize = Integer.MAX_VALUE;
+        NodeBox smallestSCCNode = null;
+        for (Map.Entry<NodeBox, Integer> entry : sccMap.entrySet()) {
+            if (entry.getValue() < minSize) {
+                minSize = entry.getValue();
+                smallestSCCNode = entry.getKey();
+            }
+        }
+
+        // Return one of the nodes that belongs to the smallest SCC
+        return smallestSCCNode;
+    }
 
 
 

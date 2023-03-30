@@ -3,6 +3,7 @@ package com.example.dotsandboxes.controller;
 import com.example.dotsandboxes.model.classes.CustomLine;
 import com.example.dotsandboxes.model.classes.Game;
 import com.example.dotsandboxes.model.classes.NodeBoard;
+import com.example.dotsandboxes.model.classes.NodeBox;
 import com.example.dotsandboxes.view.GameScreen;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -117,7 +118,9 @@ public class GameScreenController {
         this.model.nodeBoard.printer();
         this.model.setMovesCounter();
 
-        //System.out.println(this.model.eval());
+        //NodeBox temp = this.model.nodeBoard.findNodeInSmallestSCC(this.model.nodeBoard.AllNodes);
+        //System.out.println("the row is" + temp.getBoxRow() + "and the col is" + temp.getBoxCol());
+        //System.out.println(this.model.eval())
 
 
         //System.out.println(this.model.nodeBoard.countScc());
