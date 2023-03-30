@@ -196,8 +196,11 @@ public class Game {
         int tempScore;
         CustomLine bestMove = null;
 
-        int before = 0;
-        int after = 0;
+        int totalBefore = 0;
+        int totalAfter = 0;
+
+        int size3Before = 0;
+        int size3After = 0;
 
         int scoreP1 = 0;
         int scoreP2 = 0;
@@ -212,23 +215,33 @@ public class Game {
                 int col1 = col;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row][col]);
 
-                before = this.nodeBoard.numOfBoxesInGame();
+                totalBefore = this.nodeBoard.numOfBoxesInGame();
+                size3Before = this.nodeBoard.NodeCountArrays[3].size();
 
                 this.nodeBoard.SetNewLine(row1,col1);
 
-                after = this.nodeBoard.numOfBoxesInGame();
+                totalAfter = this.nodeBoard.numOfBoxesInGame();
+                size3After = this.nodeBoard.NodeCountArrays[3].size();
 
 
                 scoreP1 = this.first.getScore();
                 scoreP2 = this.second.getScore();
 
-                if (before - after == 1){
+                if (totalBefore - totalAfter == 1){
                     if (this.turn == FIRST_PLAYER){
                         scoreP1 += 1;
                     }
                     else {
                         scoreP2 += 1;
                     }
+                }
+                else if (size3Before!=size3After){
+                        if (this.turn == FIRST_PLAYER){
+                            scoreP2 += 1;
+                        }
+                        else {
+                            scoreP1 += 1;
+                        }
                 }
 
                 tempScore = eval(scoreP1 , scoreP2 , row ,col);
@@ -245,20 +258,33 @@ public class Game {
                 int col1 = col;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row+1][col]);
 
-                before = this.nodeBoard.numOfBoxesInGame();
+                totalBefore = this.nodeBoard.numOfBoxesInGame();
+                size3Before = this.nodeBoard.NodeCountArrays[3].size();
+
                 this.nodeBoard.SetNewLine(row1,col1);
-                after = this.nodeBoard.numOfBoxesInGame();
+                totalAfter = this.nodeBoard.numOfBoxesInGame();
+                size3After = this.nodeBoard.NodeCountArrays[3].size();
+
 
                 scoreP1 = this.first.getScore();
                 scoreP2 = this.second.getScore();
 
-                if (before - after == 1){
+                if (totalBefore - totalAfter == 1){
                     if (this.turn == FIRST_PLAYER){
                         scoreP1 += 1;
                     }
                     else {
                         scoreP2 += 1;
                     }
+                }
+                else if (size3Before!=size3After){
+                        if (this.turn == FIRST_PLAYER){
+                            scoreP2 += 1;
+                        }
+                        else {
+                            scoreP1 += 1;
+                        }
+
                 }
 
                 tempScore = eval(scoreP1 , scoreP2  , row ,col);
@@ -276,14 +302,18 @@ public class Game {
                 int col1 = col;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col][row]);
 
-                before = this.nodeBoard.numOfBoxesInGame();
+
+                size3Before = this.nodeBoard.NodeCountArrays[3].size();
+                totalBefore = this.nodeBoard.numOfBoxesInGame();
                 this.nodeBoard.SetNewLine(row1,col1);
-                after  = this.nodeBoard.numOfBoxesInGame();
+
+                size3After = this.nodeBoard.NodeCountArrays[3].size();
+                totalAfter  = this.nodeBoard.numOfBoxesInGame();
 
                 scoreP1 = this.first.getScore();
                 scoreP2 = this.second.getScore();
 
-                if (before - after == 1){
+                if (totalBefore - totalAfter == 1){
                     if (this.turn == FIRST_PLAYER){
                         scoreP1 += 1;
                     }
@@ -291,6 +321,17 @@ public class Game {
                         scoreP2 += 1;
                     }
                 }
+                else if (size3Before != size3After){
+                        if (this.turn == FIRST_PLAYER){
+                            scoreP2 += 1;
+                        }
+                        else {
+                            scoreP1 += 1;
+                        }
+
+                }
+
+
                 tempScore = eval(scoreP1,scoreP2 , row ,col);
                 this.nodeBoard.UndoMove(row,col,3);
 
@@ -306,15 +347,19 @@ public class Game {
                 int col1 = col+1;
                 CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col+1][row]);
 
-                before = this.nodeBoard.numOfBoxesInGame();
+
+                size3Before = this.nodeBoard.NodeCountArrays[3].size();
+                totalBefore = this.nodeBoard.numOfBoxesInGame();
                 this.nodeBoard.SetNewLine(row1,col1);
-                after  = this.nodeBoard.numOfBoxesInGame();
+
+                size3After = this.nodeBoard.NodeCountArrays[3].size();
+                totalAfter  = this.nodeBoard.numOfBoxesInGame();
 
 
                 scoreP1 = this.first.getScore();
                 scoreP2 = this.second.getScore();
 
-                if (before - after == 1){
+                if (totalBefore - totalAfter == 1){
                     if (this.turn == FIRST_PLAYER){
                         scoreP1 += 1;
                     }
@@ -322,6 +367,17 @@ public class Game {
                         scoreP2 += 1;
                     }
                 }
+                else if (size3Before!=size3After){
+                        if (this.turn == FIRST_PLAYER){
+                            scoreP2 += 1;
+                        }
+                        else {
+                            scoreP1 += 1;
+                        }
+                }
+
+
+
                 tempScore = eval(scoreP1,scoreP2  , row ,col);
                 this.nodeBoard.UndoMove(row,col,4);
 
