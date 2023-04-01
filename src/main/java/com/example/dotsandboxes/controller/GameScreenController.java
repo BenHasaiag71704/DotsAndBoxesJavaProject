@@ -150,7 +150,9 @@ public class GameScreenController {
 
                 //CustomLine myCustomLine = model.getLineToTurn();
 
-                CustomLine myCustomLine = model.getMove();
+               CustomLine myCustomLine = model.getBestMove();
+                //CustomLine myCustomLine = model.miniMax();
+
                 Line l = myCustomLine.getCustomLine();
 
 

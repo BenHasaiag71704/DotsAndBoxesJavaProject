@@ -1,13 +1,11 @@
 package com.example.dotsandboxes.model.classes;
 
 import com.example.dotsandboxes.model.enums.PlayerIndex;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.util.Pair;
 
 import static com.example.dotsandboxes.model.enums.PlayerIndex.FIRST_PLAYER;
-import static com.example.dotsandboxes.model.enums.PlayerIndex.SECOND_PLAYER;
 
 public class Game {
     // first and second player
@@ -189,7 +187,7 @@ public class Game {
 
 
 
-    public CustomLine getMove(){
+    public CustomLine getBestMove(){
 
 
         int score = Integer.MIN_VALUE;
@@ -257,6 +255,7 @@ public class Game {
                 }
                 //calc the score
                 tempScore = eval(scoreP1 , scoreP2 , row ,col);
+                tempScore++;
 
                 // undo the move
                 this.nodeBoard.UndoMove(row,col,1);
@@ -485,6 +484,22 @@ public class Game {
     public void setTurn(PlayerIndex turn) {
         this.turn = turn;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
