@@ -24,7 +24,7 @@ public class GameSetUpScreenController {
         setButtonStyle(view.getMoveToGame());
         view.getMoveToGame().setOnAction(actionEvent -> {
             try {
-                moveToGamePressed();
+                checkDataFromSetUp();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -32,11 +32,11 @@ public class GameSetUpScreenController {
         view.start(stage);
     }
 
-    private void moveToGamePressed() throws Exception {
+    private void checkDataFromSetUp() throws Exception {
         int boardSize = view.getBoardSizeInput();
         String p1 = view.getP1Input();
         String p2 = view.getP2Input();
-        if (boardSize > 1 && p1.length() >= 1 && p2.length() >= 1) {
+        if (boardSize > 1 && boardSize < 10 && p1.length() >= 1 && p2.length() >= 1 ) {
             model.getFirst().setName(p1);
             model.getSecond().setName(p2);
             model.setGameBoard(new Board(boardSize));

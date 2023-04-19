@@ -33,6 +33,9 @@ public class MainMenuScreen extends Application {
         Scene scene = new Scene(root, sceneX, sceneY);
         stage.setScene(scene);
         stage.show();
+
+
+
     }
 
     public Label getTitle() {return title;}

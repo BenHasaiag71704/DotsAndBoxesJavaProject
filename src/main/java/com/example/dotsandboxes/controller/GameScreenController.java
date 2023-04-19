@@ -3,7 +3,6 @@ package com.example.dotsandboxes.controller;
 import com.example.dotsandboxes.model.classes.CustomLine;
 import com.example.dotsandboxes.model.classes.Game;
 import com.example.dotsandboxes.model.classes.NodeBoard;
-import com.example.dotsandboxes.model.classes.NodeBox;
 import com.example.dotsandboxes.view.GameScreen;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -118,7 +117,7 @@ public class GameScreenController {
         this.model.nodeBoard.printer();
         this.model.setMovesCounter();
 
-        NodeBox temp = this.model.nodeBoard.findNodeInSmallestSCC(this.model.nodeBoard.AllNodes);
+        //NodeBox temp = this.model.nodeBoard.findNodeInSmallestSCC(this.model.nodeBoard.AllNodes);
         //System.out.println("\nthe row is " + temp.getBoxRow() + "and the col is " + temp.getBoxCol());
         //System.out.println(this.model.eval())
 
@@ -131,7 +130,7 @@ public class GameScreenController {
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
         if (!model.gameStatus()) {
-            Pair<Integer,String> results = model.getWinner();
+            Pair<Integer,String> results = model.getGameWinner();
             if (results.getKey() == 0) {
                 labels[0].setText(results.getValue() + " Won");
             }
@@ -150,7 +149,7 @@ public class GameScreenController {
 
                 //CustomLine myCustomLine = model.getLineToTurn();
 
-               CustomLine myCustomLine = model.getBestMove();
+               CustomLine myCustomLine = model.AiBestMove();
                 //CustomLine myCustomLine = model.miniMax();
 
                 Line l = myCustomLine.getCustomLine();

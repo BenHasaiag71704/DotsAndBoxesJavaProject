@@ -4,6 +4,11 @@ import com.example.dotsandboxes.controller.MainMenuScreenController;
 import com.example.dotsandboxes.model.classes.Game;
 import com.example.dotsandboxes.view.MainMenuScreen;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -15,6 +20,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+
+
+
         int sceneX = 800;
         int sceneY = 800;
         Game model = new Game();

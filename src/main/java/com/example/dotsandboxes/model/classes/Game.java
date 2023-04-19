@@ -67,7 +67,7 @@ public class Game {
     }
 
     // check if a move is valid or not
-    public boolean checkAndExecuteMove(Line line) {
+    public void checkAndExecuteMove(Line line) {
         if (line.getStroke() == Color.GREEN || line.getStroke() == Color.TRANSPARENT) {
             int scoreObtained = gameBoard.checkBox(line);
             if (turn == FIRST_PLAYER){
@@ -82,22 +82,23 @@ public class Game {
                 swapTurn();
             }
             isGameOver();
-            return true;
+            //return true;
         } else {
-            return false;
+            //return false;
         }
     }
 
     // check if the game is over
-    public boolean isGameOver() {
+    public void isGameOver() {
         if (!gameStatus()) {
             gameBoard.disableAllLines();
-            return true;
+            //return true;
         }
-        return false;
+        //return false;
     }
-    // get the name of the winner , pair 1 means it's a draw and pair 0 means there is a winner
-    public Pair<Integer,String> getWinner() {
+    // get the name of the winner
+    // 1 means its a draw and 0 means winner
+    public Pair<Integer,String> getGameWinner() {
         if (first.getScore() == second.getScore()) {
             return new Pair<>(1,"");
         }
@@ -119,67 +120,6 @@ public class Game {
 
 
 
-    public CustomLine getLineToTurn() {
-
-        //check if any 3 line boxes to close
-        if (!this.nodeBoard.NodeCountArrays[3].isEmpty()){
-            CustomLine l = getLineFromBoxInArrayCountN(3);
-            return l;
-        }
-        if (!this.nodeBoard.NodeCountArrays[0].isEmpty()) {
-            CustomLine myL = getLineFromBoxInArrayCountN(0);
-            return myL;
-        }
-        if (!this.nodeBoard.NodeCountArrays[1].isEmpty()) {
-            CustomLine myL = getLineFromBoxInArrayCountN(1);
-            return myL;
-        }
-        if (!this.nodeBoard.NodeCountArrays[2].isEmpty()) {
-            CustomLine myL = getLineFromBoxInArrayCountN(2);
-            return myL;
-        }
-
-
-        return null;
-    }
-
-
-
-
-    public CustomLine getLineFromBoxInArrayCountN(int n){
-        NodeBox b = this.nodeBoard.NodeCountArrays[n].get(0);
-        int row = b.getBoxRow();
-        int col = b.getBoxCol();
-
-        if (b.getUp() == 0){
-            int row1 = row*2;
-            int col1 = col;
-            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row][col]);
-            return line;
-        }
-        if (b.getDown() == 0){
-            int row1 = row*2+2;
-            int col1 = col;
-            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getHorizontalLines()[row+1][col]);
-            return line;
-
-        }
-        if (b.getLeft() == 0){
-            int row1 = (row*2)+1;
-            int col1 = col;
-            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col][row]);
-            return line;
-
-        }
-        if (b.getRight() == 0){
-            int row1 = (row*2)+1;
-            int col1 = col+1;
-            CustomLine line = new CustomLine(row1,col1,this.gameBoard.getVerticalLines()[col+1][row]);
-            return line;
-
-        }
-        return null;
-    }
 
 
 
@@ -187,7 +127,11 @@ public class Game {
 
 
 
-    public CustomLine getBestMove(){
+
+
+
+
+    public CustomLine AiBestMove(){
 
 
         int score = Integer.MIN_VALUE;
@@ -255,7 +199,7 @@ public class Game {
                 }
                 //calc the score
                 tempScore = eval(scoreP1 , scoreP2 , row ,col);
-                tempScore++;
+                //tempScore++;
 
                 // undo the move
                 this.nodeBoard.UndoMove(row,col,1);

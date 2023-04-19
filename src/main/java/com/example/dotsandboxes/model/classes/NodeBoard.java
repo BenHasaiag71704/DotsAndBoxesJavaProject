@@ -23,11 +23,30 @@ public class NodeBoard {
 
     public ArrayList<NodeBox>[] NodeCountArrays;
 
-    public int p1Score;
-    public int p2Score;
 
+    public NodeBox[][] getAllNodes() {
+        return AllNodes;
+    }
 
+    public void setAllNodes(NodeBox[][] allNodes) {
+        AllNodes = allNodes;
+    }
 
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
+    }
+
+    public ArrayList<NodeBox>[] getNodeCountArrays() {
+        return NodeCountArrays;
+    }
+
+    public void setNodeCountArrays(ArrayList<NodeBox>[] nodeCountArrays) {
+        NodeCountArrays = nodeCountArrays;
+    }
 
     public NodeBoard(int boardSize) {
         this.boardSize = boardSize;
@@ -126,7 +145,6 @@ public class NodeBoard {
         }
 
 
-
         if (i%2 == 0){
             if (i==0){
                 // connect up
@@ -196,14 +214,15 @@ public class NodeBoard {
             for (int j = 0; j < boardSize - 1; j++) {
                 // Check if the current node has already been visited
                 if (visited[i][j]) {
-                    continue;
+
                 }
+                else {
+                    // Perform DFS from the current node
+                    int sccSize = dfs(countNodeChain, i, j, visited);
 
-                // Perform DFS from the current node
-                int sccSize = dfs(countNodeChain, i, j, visited);
-
-                // Add the size of the SCC to the list
-                sccSizes.add(sccSize);
+                    // Add the size of the SCC to the list
+                    sccSizes.add(sccSize);
+                }
             }
         }
 

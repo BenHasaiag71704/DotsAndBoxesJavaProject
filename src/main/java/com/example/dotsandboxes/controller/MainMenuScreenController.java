@@ -8,6 +8,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -16,6 +19,9 @@ public class MainMenuScreenController {
     private Game model;
     private Stage stage;
     public MainMenuScreenController(MainMenuScreen view, Game model, Stage stage) throws Exception {
+
+
+
         this.model = model;
         this.view = view;
         this.stage = stage;
