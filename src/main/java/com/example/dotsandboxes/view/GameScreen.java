@@ -15,20 +15,31 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class GameScreen extends Application {
-    private Board gameBoard;
-    private int sceneX;
-    private int sceneY;
-    private StringProperty player1;
-    private StringProperty player2;
+    public Board gameBoard;
+    public int sceneX;
+    public int sceneY;
+    public StringProperty player1;
+    public StringProperty player2;
 
-    private IntegerProperty player1Score;
-    private IntegerProperty player2Score;
-    private StringProperty stringCurrentTurn;
-    private StringProperty stringScorePlayer1;
-    private StringProperty stringScorePlayer2;
-    private Label[] labels;
+    public IntegerProperty player1Score;
+    public IntegerProperty player2Score;
+    public StringProperty stringCurrentTurn;
+    public StringProperty stringScorePlayer1;
+    public StringProperty stringScorePlayer2;
+    public Label[] labels;
+
+
 
     public GameScreen() {}
+
+    /**
+     * constructor for the game screen
+     * @param gameBoard the game board
+     * @param p1 player 1
+     * @param p2 player 2
+     * @param sceneX the width of the screen
+     * @param sceneY the height of the screen
+     */
     public GameScreen(Board gameBoard,Player p1,Player p2, int sceneX, int sceneY) {
         this.gameBoard = gameBoard;
         this.sceneX = sceneX;
@@ -43,6 +54,11 @@ public class GameScreen extends Application {
         this.stringScorePlayer2 = new SimpleStringProperty(player2.getValue() + "'s score - ");
     }
 
+    /**
+     * starts the game screen and adds all the children to the root
+     * @param stage the stage to be shown
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Group root = new Group();
@@ -52,6 +68,14 @@ public class GameScreen extends Application {
         stage.show();
     }
 
+    /**
+     * adds all the children to the root of the game screen
+     * @param root the root of the game screen
+     * @param labels the labels in the game screen
+     * @param dots the dots of the game screen (which we use to connect line)
+     * @param horizontalLines the horizontal lines matrix
+     * @param verticalLines the vertical lines matrix
+     */
     public void addChildrenToRoot(Group root, Label[] labels, Circle[][] dots, Line[][] horizontalLines, Line[][] verticalLines) {
         root.getChildren().addAll(labels);
         for(int i = 0; i<gameBoard.getBoardSize(); i++) {

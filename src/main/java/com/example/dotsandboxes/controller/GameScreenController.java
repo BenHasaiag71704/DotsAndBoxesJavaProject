@@ -11,12 +11,24 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.time.Instant;
+
 
 public class GameScreenController {
-    private Game model;
-    private GameScreen view;
-    private int boardSize;
 
+
+    public Game model;
+    public GameScreen view;
+    public int boardSize;
+
+
+/**
+    * constructor for the game screen controller
+     * @param model - the game model which contains the game data (board,  nodeboard etc)
+     * @param view - the screen view which contains the game screen
+     * @param stage - the app window where the gui is displayed
+     * @throws Exception
+     */
     public GameScreenController(Game model, GameScreen view, Stage stage) throws Exception {
         this.model = model;
         this.view = view;
@@ -24,8 +36,6 @@ public class GameScreenController {
 
 
         this.model.nodeBoard = new NodeBoard(boardSize);
-
-        //System.out.println(this.model.nodeBoard.NodesAll.size());
 
 
         double startingX =  (double) view.getSceneX()/2 - (double) (boardSize *50)/2;
@@ -41,13 +51,20 @@ public class GameScreenController {
     }
 
 
-
+    /**
+    * set the mouse reaction to all the lines on the board
+     * used to pass data about the line which was clicked to the model
+     */
     public void setLineButtons(Line[][] lines , Boolean isHorizontal) {
         for (int i = 0; i< boardSize; i++) {
             for (int j = 0; j < boardSize - 1; j++) {
                 lines[i][j].setStroke(Color.TRANSPARENT);
                 lines[i][j].setStrokeWidth(5);
 
+
+                // calc where the line came from
+                // we have 2 diffrent matrixes to choose from , we need some
+                // rules so we can calcualte the line position in the matrix in the model
                 int finalI = i;
                 int finalJ = j;
                 if (isHorizontal){
@@ -61,6 +78,7 @@ public class GameScreenController {
                 int finalJ1 = finalJ;
                 int finalI1 = finalI;
 
+                // setting the events for the line
                 lines[i][j].setOnMouseClicked((mouseEvent -> {
                     Line clickedLine = (Line) mouseEvent.getSource();
                     model.checkAndExecuteMove(clickedLine);
@@ -82,12 +100,19 @@ public class GameScreenController {
         }
 
     }
+
+    /**
+     * the function which updates the lables on the screen
+     */
     public void setGameScreenText(Label[] labels, double startingX, double startingY) {
+        // setting 3 new labels
+        // 0 for current player in the game , 1-2 for the players name
         labels[0] = new Label();
         labels[1] = new Label();
         labels[2] = new Label();
 
 
+        // setting pos and style for the first , second and third label
         labels[0].setText("" + view.getStringCurrentTurn());
         labels[0].setLayoutX(startingX-labels[0].getWidth()/3 - 25);
         labels[0].setLayoutY(startingY-startingY/2 - 50);
@@ -111,24 +136,29 @@ public class GameScreenController {
         labels[2].setTextFill(Color.RED);
     }
 
+    /**
+     * function which updates the scores on the screen
+     * also the function which use the ai
+     * @param labels - to be able to update them
+     * @param player1Score - current p1 score
+     * @param player2Score - current p2 score
+     * @param i row of line clicked
+     * @param j col of line clicked
+     */
     public void updateScores(Label[] labels, int player1Score, int player2Score , int i , int j) {
 
+        //set new line in the model
         this.model.nodeBoard.SetNewLine(i,j);
+        //print current state of nodeBoard (for debugging)
         this.model.nodeBoard.printer();
+        // set move counter
         this.model.setMovesCounter();
 
-        //NodeBox temp = this.model.nodeBoard.findNodeInSmallestSCC(this.model.nodeBoard.AllNodes);
-        //System.out.println("\nthe row is " + temp.getBoxRow() + "and the col is " + temp.getBoxCol());
-        //System.out.println(this.model.eval())
 
-
-        //System.out.println(this.model.nodeBoard.countScc());
-        //System.out.println(this.model.eval());
-
-
-
+        // update the scores on the screen
         labels[1].setText(view.getStringScorePlayer1() + " " + player1Score);
         labels[2].setText(view.getStringScorePlayer2()+ " " + player2Score);
+        // check if the game is over
         if (!model.gameStatus()) {
             Pair<Integer,String> results = model.getGameWinner();
             if (results.getKey() == 0) {
@@ -142,20 +172,40 @@ public class GameScreenController {
             System.out.println("was clicked in line and row :"  + i + "" + j);
             labels[0].setText(model.getCurrent().getName() + view.getStringCurrentTurn());
 
+            // if its ai turn get the line from the ai algorithm
             if (model.getCurrent().isAi()){
                 //get Line to turn will be using eval
-
-
-
                 //CustomLine myCustomLine = model.getLineToTurn();
 
-               CustomLine myCustomLine = model.AiBestMove();
+                //get time
+                Instant start = Instant.now();
+
+                //get memory
+                final Runtime runtime = Runtime.getRuntime();
+                long startMem , endMem;
+                runtime.gc();
+                startMem = runtime.freeMemory();
+
+
+                // get the move for the ai
+                CustomLine myCustomLine = model.AiBestMove();
+
+
+                endMem = runtime.freeMemory();
+               Instant end = Instant.now();
+
+                //print ms and mem
+               System.out.println("the time it took to calc the move in ms : " + (end.toEpochMilli() - start.toEpochMilli()));
+               System.out.println((startMem - endMem)/(1024*1024) + "Mb were used");
+
                 //CustomLine myCustomLine = model.miniMax();
 
+
+                // get the line on screen from the ai
                 Line l = myCustomLine.getCustomLine();
 
 
-
+                // get the pos of the line to laeter put in the nodeBoard
                 int pos1 = myCustomLine.getPos1();
                 int pos2 = myCustomLine.getPos2();
 

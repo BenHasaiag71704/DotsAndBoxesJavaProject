@@ -1,10 +1,14 @@
 package com.example.dotsandboxes.model.classes;
 
 public class Player {
-    private String name;
-    private int score;
-    private boolean isAi;
+    public String name;
+    public int score;
+    public boolean isAi;
 
+    /**
+     * constructor
+     * @param isAi
+     */
     public Player(boolean isAi) {
         score = 0;
         this.isAi = isAi;

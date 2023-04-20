@@ -9,18 +9,18 @@ import static com.example.dotsandboxes.model.enums.PlayerIndex.FIRST_PLAYER;
 
 public class Game {
     // first and second player
-    private Player first;
-    private Player second;
+    public Player first;
+    public Player second;
 
     // the index for the player turn
     //FIRST_PLAYER for the player who started and SECOND_PLAYER
-    private PlayerIndex turn;
+    public PlayerIndex turn;
 
     // the type of the game , 0 for human vs human and 1 for human vs ai
-    private int gameType;
+    public int gameType;
 
     // the game board itself
-    private Board gameBoard;
+    public Board gameBoard;
 
     public NodeBoard nodeBoard;
 
@@ -32,6 +32,14 @@ public class Game {
         this.turn = FIRST_PLAYER;
     }
 
+
+    /**
+     * constructor for the game class
+     * @param first the first player
+     * @param second the second player
+     * @param gameType the type of the game
+     * @param gameBoard the game board
+     */
     public Game(Player first, Player second, int gameType, Board gameBoard) {
         this.gameType = gameType;
         this.first = first;
@@ -41,7 +49,6 @@ public class Game {
         this.countP1Moves = 0;
         this.countP2Moves = 0;
     }
-
 
 
     public PlayerIndex getTurn() {
@@ -66,7 +73,12 @@ public class Game {
         turn = turn == FIRST_PLAYER ? PlayerIndex.SECOND_PLAYER : FIRST_PLAYER;
     }
 
-    // check if a move is valid or not
+    /**
+     * check if a move is valid or not and execute it
+     * swap the turn if the move is valid
+     * check if the game is over
+     * @param line
+     */
     public void checkAndExecuteMove(Line line) {
         if (line.getStroke() == Color.GREEN || line.getStroke() == Color.TRANSPARENT) {
             int scoreObtained = gameBoard.checkBox(line);
@@ -88,7 +100,9 @@ public class Game {
         }
     }
 
-    // check if the game is over
+    /**
+     * check if the game is over
+     */
     public void isGameOver() {
         if (!gameStatus()) {
             gameBoard.disableAllLines();
@@ -96,8 +110,13 @@ public class Game {
         }
         //return false;
     }
-    // get the name of the winner
-    // 1 means its a draw and 0 means winner
+
+
+    /**
+     * get the name of the winner
+     * 1 means its a draw and 0 means winner
+     * @return
+     */
     public Pair<Integer,String> getGameWinner() {
         if (first.getScore() == second.getScore()) {
             return new Pair<>(1,"");
@@ -116,21 +135,12 @@ public class Game {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * the ai move function , it use the evaluation function to find the best move
+     * goes through all the boxes and try all the possible moves
+     * undo the move after the evaluation
+     * @return
+     */
     public CustomLine AiBestMove(){
 
 
@@ -351,10 +361,15 @@ public class Game {
     }
 
 
-    // s1 is score of player 1
-    // s2 is score of player 2
-    // int row/col are the row and col of the box that was just played
-    // eval is running AFTER the mov has been made
+    /**
+     * this function is the evaluation function
+     * @param s1 score of player 1
+     * @param s2 score of player 2
+     * @param row row of the box that was just played
+     * @param col col of the box that was just played
+     * val is running AFTER the mov has been made
+     * @return
+     */
     public int eval(int s1 , int s2 , int row , int col){
         int score = 0;
 

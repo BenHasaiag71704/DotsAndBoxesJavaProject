@@ -48,6 +48,10 @@ public class NodeBoard {
         NodeCountArrays = nodeCountArrays;
     }
 
+    /**
+     * constructor
+     * @param boardSize the size of the board
+     */
     public NodeBoard(int boardSize) {
         this.boardSize = boardSize;
         AllNodes = new NodeBox[boardSize-1][boardSize-1];
@@ -59,15 +63,18 @@ public class NodeBoard {
 
         NodeCountArrays = new ArrayList[5];
 
-
-
-
         for (int i = 0 ; i < 5; i++){
             NodeCountArrays[i] = new ArrayList<>();
         }
         initNodes();
     }
 
+    /**
+     * init the nodes
+     * connecting between the matrix and the arraylist
+     * set all the pointers of the nodes
+     * @param
+     */
     public void initNodes() {
         for (int i = 0; i < boardSize - 1 ; i++) {
             for (int j = 0; j < boardSize - 1; j++) {
@@ -117,6 +124,12 @@ public class NodeBoard {
         }
     }
 
+    /**
+     * get the node in the matrix
+     * move the node to the correct arraylist
+     * @param row
+     * @param col
+     */
     public void moveToCorrectArraylistCounter(int row , int col){
         int count = AllNodes[row][col].lineCount();
 
@@ -128,6 +141,14 @@ public class NodeBoard {
         }
     }
 
+
+    /**
+     * set the new line in the model
+     * turn on the line , check neighbors and turn on their lines , disconnect the nodes if needed
+     * @param i
+     * @param j
+     * i and j to calculate the location of the new line which we need to set
+     */
     public void SetNewLine(int i , int j){
         int row;
         int col;
@@ -189,7 +210,9 @@ public class NodeBoard {
         }
     }
 
-
+    /**
+     * print the size of the arraylists
+     */
     public void printer(){
         for (int i = 0 ; i < 5; i++){
             System.out.println("list number" + " " + i + " " + " " +NodeCountArrays[i].size());
@@ -198,12 +221,15 @@ public class NodeBoard {
 
 
 
-
     public int countScc(){
         return countLargeSccs(this.AllNodes);
     }
 
-
+    /**
+     * count the number of large SCCs
+     * @param countNodeChain - the matrix of nodes
+     * @return
+     */
     public int countLargeSccs(NodeBox[][] countNodeChain) {
         int boardSize = countNodeChain.length + 1;
         boolean[][] visited = new boolean[boardSize][boardSize];
@@ -214,7 +240,7 @@ public class NodeBoard {
             for (int j = 0; j < boardSize - 1; j++) {
                 // Check if the current node has already been visited
                 if (visited[i][j]) {
-
+                    // go to the next node
                 }
                 else {
                     // Perform DFS from the current node
@@ -238,7 +264,14 @@ public class NodeBoard {
     }
 
 
-
+    /**
+     * Perform DFS from the current node and return the size of the SCC
+     * @param countNodeChain - the matrix of nodes
+     * @param row the row of the node in the matrix
+     * @param col the column of the node in the matrix
+     * @param visited - a matrix that indicates whether a node has already been visited
+     * @return
+     */
     public int dfs(NodeBox[][] countNodeChain, int row, int col, boolean[][] visited) {
         // Check if the current node has already been visited
         if (visited[row][col]) {
@@ -270,13 +303,13 @@ public class NodeBoard {
     }
 
 
-//    public void printDfs(){
-//        boolean[][] visited = new boolean[boardSize][boardSize];
-//        int sccSize = dfs(this.AllNodes, 0, 0, visited);
-//        System.out.println("Size of SCC: " + sccSize);
-//    }
-
-
+    /**
+     * undo the move , turn off the line , check neighbors and turn off their lines , reconnect the nodes if needed
+     * @param row
+     * @param col
+     * row and col of the node we want to undo the move on
+     * @param Number  , num = 1 up , num = 2 down , num = 3 left , num = 4 right
+     */
     public void UndoMove(int row , int col , int Number){
         //num = 1 up , num = 2 down , num = 3 left , num = 4 right
 
@@ -335,7 +368,11 @@ public class NodeBoard {
         }
     }
 
-
+    /**
+     * set the node to its correct placement in the array
+     * @param row
+     * @param col
+     */
     public void reSetPlacementInArray(int row , int col){
         // here we already changed the numer of lines in the node
         int count = AllNodes[row][col].lineCount();
@@ -352,7 +389,11 @@ public class NodeBoard {
     }
 
 
-
+    /**
+     * find the node with the smallest SCC
+     * @param countNodeChain
+     * @return
+     */
     public NodeBox findNodeInSmallestSCC(NodeBox[][] countNodeChain) {
         // Create a map to store the SCCs and their sizes
         Map<NodeBox, Integer> sccMap = new HashMap<>();
@@ -386,6 +427,10 @@ public class NodeBoard {
     }
 
 
+    /**
+     * return the number of boxes in the game (which arent close , means the are "playable")
+     * @return
+     */
     public int numOfBoxesInGame(){
         return this.NodeCountArrays[0].size() +  this.NodeCountArrays[1].size() +  this.NodeCountArrays[2].size() +  this.NodeCountArrays[3].size();
     }

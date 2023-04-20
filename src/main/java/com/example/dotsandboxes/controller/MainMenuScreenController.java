@@ -15,13 +15,20 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MainMenuScreenController {
-    private MainMenuScreen view;
-    private Game model;
-    private Stage stage;
+    public MainMenuScreen view;
+
+    public Game model;
+    public Stage stage;
+
+
+    /**
+     * constructor
+     * @param view - the screen view which contains the title screen
+     * @param model - the game model which contains the game data (board,  nodeboard etc)
+     * @param stage - the app window where the gui is displayed
+     * @throws Exception
+     */
     public MainMenuScreenController(MainMenuScreen view, Game model, Stage stage) throws Exception {
-
-
-
         this.model = model;
         this.view = view;
         this.stage = stage;
@@ -31,34 +38,43 @@ public class MainMenuScreenController {
         view.start(stage);
     }
 
-    private void handleHumanVsHuman() throws Exception {
+    // button handlers
+    public void handleHumanVsHuman() throws Exception {
         model.setGameType(0);
         model.setFirst(new Player(false));
         model.setSecond(new Player(false));
         moveToSettings();
     }
-    private void handleHumanVsAi() throws Exception {
+    public void handleHumanVsAi() throws Exception {
         model.setGameType(1);
         model.setFirst(new Player(false));
         model.setSecond(new Player(true));
         moveToSettings();
     }
 
-
-    private void moveToSettings() throws Exception { // moves the app to the settings screen after a button was pressed
+    // helper methods to move to settings screen
+    public void moveToSettings() throws Exception { // moves the app to the settings screen after a button was pressed
         GameSetUpScreen settingsView = new GameSetUpScreen(view.getSceneX(), view.getSceneY());
         GameSetUpScreenController settingsController = new GameSetUpScreenController(settingsView,model,stage);
     }
-    private void setLabelStyle(Label title) {
+
+    // set the lables and buttons style
+    public void setLabelStyle(Label title) {
         title.setAlignment(Pos.CENTER);
         title.setStyle("-fx-font-size: 75px;-fx-font-family: 'Bell MT'");
         title.setTextFill(Color.BLACK);
     }
-    private void setStyles(Button humanVsHuman, Button humanVsAi) {
+    public void setStyles(Button humanVsHuman, Button humanVsAi) {
         humanVsHuman.setPadding(new Insets(10,20,10,20));
         humanVsAi.setPadding(new Insets(10,34,10,34));
     }
-    private void buttonSetOnAction(Button humanVsHuman, Button humanVsAi) {
+
+    /**
+     * sets the on action for the buttons
+     * @param humanVsHuman - the button for human vs human
+     * @param humanVsAi - the button for human vs ai
+     */
+    public void buttonSetOnAction(Button humanVsHuman, Button humanVsAi) {
         humanVsHuman.setOnAction(buttonEvent -> {
             try {
                 handleHumanVsHuman();

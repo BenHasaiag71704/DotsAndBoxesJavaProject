@@ -12,9 +12,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class GameSetUpScreenController {
-    private GameSetUpScreen view;
-    private Game model;
-    private Stage stage;
+    public GameSetUpScreen view;
+    public Game model;
+    public Stage stage;
+
+    /**
+     * constructor
+     *  sets the style of the title and error text
+     * @param model - the game model which contains the game data (board,  nodeboard etc)
+     *  @param view - the screen view which contains the setUp screen
+     * @param stage - the app window where the gui is displayed
+     * @throws Exception
+     */
     public GameSetUpScreenController(GameSetUpScreen view, Game model, Stage stage) throws Exception {
         this.model = model;
         this.stage = stage;
@@ -32,7 +41,13 @@ public class GameSetUpScreenController {
         view.start(stage);
     }
 
-    private void checkDataFromSetUp() throws Exception {
+    /**
+     *  get the input from the user and check if it is valid
+     *  if it is valid , set the data in the model and move to the game screen
+     *  names must be at least 1 in lenght and board size must be between 2 and 9
+     * @throws Exception
+     */
+    public void checkDataFromSetUp() throws Exception {
         int boardSize = view.getBoardSizeInput();
         String p1 = view.getP1Input();
         String p2 = view.getP2Input();
@@ -45,14 +60,23 @@ public class GameSetUpScreenController {
         }
     }
 
-    private boolean validateFields(TextField boardSize,TextField player1Name,TextField player2Name) {
+    /**
+     * validate the input from the user
+     */
+    public boolean validateFields(TextField boardSize,TextField player1Name,TextField player2Name) {
         boolean boardSizeValidator = boardSize.getText().chars().allMatch(Character::isDigit);
         boolean p1NameValidator = player1Name.getText().isEmpty();
         boolean p2NameValidator = player2Name.getText().isEmpty();
         return boardSizeValidator && p1NameValidator && p2NameValidator;
     }
-    private void setButtonStyle(Button moveToGame) {}
-    private void setLabelStyle(Label title, Label errorText) {
+    public void setButtonStyle(Button moveToGame) {}
+
+    /**
+     * set the lables for the lables on screen
+     * @param title
+     * @param errorText
+     */
+    public void setLabelStyle(Label title, Label errorText) {
         title.setAlignment(Pos.CENTER);
         title.setStyle("-fx-font-size: 50px;-fx-font-family: 'Bell MT'");
         title.setTextFill(Color.BLACK);

@@ -11,18 +11,24 @@ import javafx.stage.Stage;
 
 
 public class GameSetUpScreen extends Application {
-    private Label title;
-    private Label errorText;
-    private Label player1Name;
-    private Label player2Name;
-    private Label boardSize;
-    private TextField player1Field;
-    private TextField player2Field;
-    private TextField boardSizeField;
-    private Button moveToGame;
-    private int sceneX;
-    private int sceneY;
+    public Label title;
+    public Label errorText;
+    public Label player1Name;
+    public Label player2Name;
+    public Label boardSize;
+    public TextField player1Field;
+    public TextField player2Field;
+    public TextField boardSizeField;
+    public Button moveToGame;
+    public int sceneX;
+    public int sceneY;
 
+
+    /**
+     * constructor for the game setup screen
+     * @param sceneX width of the screen
+     * @param sceneY height of the screen
+     */
     public GameSetUpScreen(int sceneX, int sceneY) {
         this.title = new Label("Settings");
         this.player1Name = new Label("Player 1 name ");
@@ -37,6 +43,11 @@ public class GameSetUpScreen extends Application {
         this.sceneY = sceneY;
     }
 
+    /**
+     * starts the game setup screen and adds all the children to the root
+     * @param stage the stage to be shown
+     * @throws Exception
+     */
     public void start(Stage stage) throws Exception {
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
@@ -60,6 +71,12 @@ public class GameSetUpScreen extends Application {
 
     public int getSceneX() {return sceneX;}
     public int getSceneY() {return sceneY;}
+
+    /**
+     * gets the board size input from the user and returns it
+     * if the input is invalid it returns 0
+     * @return
+     */
     public int getBoardSizeInput() {
         int number;
         try {

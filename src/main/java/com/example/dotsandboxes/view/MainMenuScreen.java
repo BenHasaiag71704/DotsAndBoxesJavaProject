@@ -10,12 +10,17 @@ import javafx.stage.Stage;
 
 
 public class MainMenuScreen extends Application {
-    private Label title;
-    private Button humanVsHuman;
-    private Button humanVsAi;
-    private int sceneX;
-    private int sceneY;
+    public Label title;
+    public Button humanVsHuman;
+    public Button humanVsAi;
+    public int sceneX;
+    public int sceneY;
 
+    /**
+     * constructor for the main menu screen
+     * @param sceneX width of the screen
+     * @param sceneY height of the screen
+     */
     public MainMenuScreen(int sceneX, int sceneY) {
         this.title = new Label("Dots And Boxes");
         this.humanVsHuman = new Button("Human Vs Human");
@@ -24,6 +29,11 @@ public class MainMenuScreen extends Application {
         this.sceneY = sceneY;
     }
 
+    /**
+     * starts the main menu screen and adds all the children to the root
+     * @param stage the stage to be shown
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         VBox root = new VBox(title, humanVsHuman, humanVsAi);

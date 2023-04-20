@@ -14,6 +14,10 @@ public class NodeBox {
     private int boxRow;
     private int boxCol;
 
+
+    /**
+     * constructor
+     */
     public NodeBox() {
         up = 0;
         down = 0;

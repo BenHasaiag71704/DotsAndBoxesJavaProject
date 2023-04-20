@@ -8,19 +8,19 @@ import java.util.ArrayList;
 public class Board {
 
     // will hold the (n-1)(n-1) boxes which makes the board
-    private Box[][] boxes;
+    public Box[][] boxes;
 
     // the size of the board (n)
-    private int boardSize;
+    public int boardSize;
 
     // matrix of all the dots on the board
     // circle is a java fx class
-    private Circle[][] dots;
+    public Circle[][] dots;
 
     // 2 matrix which will hold the horizontal and vertical lines
     // Line is a java fx class
-    private Line[][] horizontalLines;
-    private Line[][] verticalLines;
+    public Line[][] horizontalLines;
+    public Line[][] verticalLines;
 
 
     // constructor
@@ -32,6 +32,11 @@ public class Board {
         this.verticalLines = board.getVerticalLines();
         this.boxes = board.getBoxes();
     }
+
+    /**
+     * constructor
+     * @param boardSize
+     */
     public Board(int boardSize) {
         this.boardSize = boardSize;
         this.horizontalLines = new Line[boardSize][boardSize-1]; // array of horizontal lines
@@ -53,7 +58,15 @@ public class Board {
     public void setBoardSize(int boardSize) {this.boardSize = boardSize;}
     // end of getter and setter
 
-    // init all the lines in both matrix coordinate
+
+    /**
+     * init all the lines in both matrix coordinate
+     * @param startingCoordinateForX
+     * @param startingCoordinateForY
+     * starting x and y placement on the screen
+     * @param padding
+     */
+
     public void initializeLines(double startingCoordinateForX,double startingCoordinateForY, int padding) {
         for (int i = 0; i< boardSize; i++) {
             for (int j = 0; j < boardSize -1; j++) {
@@ -63,7 +76,9 @@ public class Board {
         }
     }
 
-    // init the box matrix
+    /**
+     * initialize the boxes matrix
+     */
     public void initializeBoxes() {
         for (int i = 0; i< boardSize -1; i++) {
             for (int j = 0; j < boardSize -1; j++) {
@@ -76,7 +91,14 @@ public class Board {
         }
     }
 
-    // init the dots matrix
+
+    /**
+     * initialize the dots matrix
+     * @param startingX
+     * @param startingY
+     * starting x and y placement on the screen
+     * @param padding
+     */
     public void initializeDots(double startingX,double startingY, int padding) {
         for (int i = 0; i< boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -85,7 +107,10 @@ public class Board {
         }
     }
 
-    // set all the lines to unClicked
+
+    /**
+     * set all the lines to unClicked
+     */
     public void disableAllLines() {
         for (int i = 0; i< boardSize; i++) {
             for(int j = 0; j< boardSize -1; j++) {
@@ -100,7 +125,11 @@ public class Board {
     }
 
 
-
+    /**
+     * check if the line is a part of a box
+     * @param line - the line to check
+     * @return
+     */
     public int checkBox(Line line) {
         Pair<Integer,Box[]> parentData = getParent(line);
         Box[] parents = parentData.getValue();
@@ -120,6 +149,12 @@ public class Board {
             }
         }
     }
+
+    /**
+     * get the parent of the line
+     * @param line - the line to check
+     * @return
+     */
     public Pair<Integer,Box[]> getParent(Line line) {
         Box[] results = new Box[2];
         int resultIndex = 0;

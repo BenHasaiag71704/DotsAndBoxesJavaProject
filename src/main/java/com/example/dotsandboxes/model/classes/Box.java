@@ -6,13 +6,18 @@ import java.util.ArrayList;
 
 public class Box {
     // arraylist which will hold the 4 lines of the box
-    private ArrayList<Line> lines;
+    public ArrayList<Line> lines;
     //number of connected lines
-    private int numberOfConnectedLines;
+    public int numberOfConnectedLines;
     // boolean which will tell us if the box is complete or not
-    private boolean  isComplete;
+    public boolean  isComplete;
 
     // constructor
+
+    /**
+     * constructor
+     * @param lines arraylist of lines
+     */
     public Box(ArrayList<Line> lines) {
         this.lines = lines;
         int connectedLines = 0;
@@ -31,8 +36,11 @@ public class Box {
     }
 
     // end of getters and setters
-
     // change the number of lines in a box and check if it closed (number of lines = 4)
+    /**
+     * increase the number of connected lines in the box
+     * and check if the box is complete
+     */
     public void IncreaseNumberOfConnectedLines() {
         numberOfConnectedLines +=1;
         if(numberOfConnectedLines == 4) {
